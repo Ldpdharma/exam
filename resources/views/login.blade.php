@@ -24,7 +24,7 @@
 		<div id="app" class="login-box">
 			<div class="card card-outline card-primary">
 				<div class="card-header text-center">
-					<a href="{{ route('dashboard') }}" class="h1"> <b> Admin Panel </b> </a>
+					<a href="{{ route('dashboard') }}" class="h1"> <b> Login Panel </b> </a>
 				</div>
 				<div class="card-body">
 					<p class="login-box-msg">Sign in to start your session</p>

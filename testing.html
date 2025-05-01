@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Zoom In-Out List</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f4f8;
+      padding: 40px;
+      text-align: center;
+      overflow: visible;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+    }
+
+    .list-wrapper {
+      height: 200px; /* height of visible area */
+      overflow: visible;
+      position: relative;
+      margin: 0 auto;
+      max-width: 600px;
+      padding: 60px 0; /* Extra padding to prevent clipping */
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      position: absolute;
+      width: 100%;
+      transition: transform 0.6s ease;
+    }
+
+    li {
+      background-color: #ffffff;
+      margin: 4px 0;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      font-size: 1.1rem;
+      transform: scale(0.3);
+      opacity: 0.3;
+      transition: transform 0.6s ease, opacity 0.6s ease, box-shadow 0.6s ease, filter 0.6s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .active {
+      transform: scale(1);
+      opacity: 1;
+      box-shadow: 0 0 20px 5px rgba(0, 255, 255, 0.8); /* Glow effect */
+      filter: brightness(1.3) contrast(1.2);
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Looping Scroll & Zoom In on Second Item</h2>
+
+  <div class="list-wrapper">
+    <ul id="zoomList">
+      <li>Master of Copmuter Science</li>
+      <li>ME CSE</li>
+      <li>BE CSE</li>
+      <li>B.tech </li>
+      <li>m.tech</li>
+      <li>Master of Copmuter Science</li>
+      <li>ME CSE</li>
+      <li>BE CSE</li>
+      <li>B.tech </li>
+      <li>m.tech</li>
+      <li>ME CSE</li>
+      <li>BE CSE</li>
+      <li>B.tech </li>
+      <li>m.tech</li>
+    
+    </ul>
+  </div>
+
+  <script>
+    const list = document.getElementById('zoomList');
+    let items = Array.from(list.children);
+    const totalDuration = 20000;
+    const timePerItem = totalDuration / items.length;
+    const zoomTime = timePerItem * 0.6;
+
+    function animateCycle() {
+      items = Array.from(list.children);
+      items.forEach(item => item.classList.remove('active'));
+
+      const secondItem = items[1];
+      secondItem.classList.add('active');
+
+      list.style.transition = 'transform 0.6s ease';
+      list.style.transform = `translateY(-${items[0].offsetHeight + 8}px)`;
+
+      setTimeout(() => {
+        secondItem.classList.remove('active');
+        list.appendChild(items[0]); // Move first item to bottom
+        list.style.transition = 'none';
+        list.style.transform = 'translateY(0)';
+      }, zoomTime);
+    }
+
+    animateCycle();
+    setInterval(animateCycle, timePerItem);
+  </script>
+
+</body>
+</html>

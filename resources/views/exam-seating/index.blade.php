@@ -4,6 +4,7 @@
 <head>
     <link rel="stylesheet" href="{{ asset('css/exam-seating.css') }}">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+ 
 </head>
 <div class="container mt-4">
     <h3>Exam Seating</h3>
@@ -242,250 +243,334 @@
         </div>
         
         <div class="main-content row g-3 p-2 mt-2" style="background-color:rgb(237, 241, 245);">
-            <div class="col-md-4 col-sm-6  bench_container">
-                <div id="bench1" class="bench bench1">
-                    <div class="student">
-                        <h5>Student 1</h5>
-                        <p>Roll No: 001</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 2</h5>
-                        <p>Roll No: 002</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 3</h5>
-                        <p>Roll No: 003</p>
-                    </div>
-                </div>
+
+<div class="row">
+    <!-- Bench 1 -->
+    <div class="col-md-4 col-sm-6 bench_container">
+        <div id="bench1" class="bench bench1">
+            <div class="student">
+                <h5>Seat No: L1</h5>
+                <p>Anjali R</p>
+                <p>421324622001</p>
             </div>
-            <div class="col-md-4 col-sm-6  bench_container">
-                <div id="bench2" class="bench bench2">
-                    <div class="student">
-                        <h5>Student 4</h5>
-                        <p>Roll No: 004</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 5</h5>
-                        <p>Roll No: 005</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 6</h5>
-                        <p>Roll No: 006</p>
-                    </div>
-                </div>
+            <div class="student">
+                <h5>Seat No: C1</h5>
+                <p>Vikram K</p>
+                <p>421323798011</p>
             </div>
-            <div class="col-md-4 col-sm-6 bench_container ">
-                <div id="bench3" class="bench bench3">
-                    <div class="student">
-                        <h5>Student 7</h5>
-                        <p>Roll No: 007</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 8</h5>
-                        <p>Roll No: 008</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 9</h5>
-                        <p>Roll No: 009</p>
-                    </div>
-                </div>
+            <div class="student">
+                <h5>Seat No: R1</h5>
+                <p>Pooja M</p>
+                <p>421323622001</p>
             </div>
-            <!-- New Row -->
-            <div class="col-md-4 col-sm-6 bench_container">
-                <div id="bench4" class="bench bench4">
-                    <div class="student">
-                        <h5>Student 10</h5>
-                        <p>Roll No: 010</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 11</h5>
-                        <p>Roll No: &nbsp; 011</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 12</h5>
-                        <p>Roll No: 012</p>
-                    </div>
-                </div>
+        </div>
+    </div>
+
+    <!-- Bench 6 -->
+    <div class="col-md-4 col-sm-6 bench_container">
+        <div id="bench6" class="bench bench6">
+            <div class="student">
+                <h5>Seat No: L6</h5>
+                <p>Radhika J</p>
+                <p>421324622006</p>
             </div>
-            <div class="col-md-4 col-sm-6 bench_container">
-                <div id="bench5" class="bench bench5">
-                    <div class="student">
-                        <h5>Student 13</h5>
-                        <p>Roll No: 013</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 14</h5>
-                        <p>Roll No: 014</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 15</h5>
-                        <p>Roll No: 015</p>
-                    </div>
-                </div>
+            <div class="student">
+                <h5>Seat No: C6</h5>
+                <p>Suman T</p>
+                <p>421323798016</p>
             </div>
-            <div class="col-md-4 col-sm-6 bench_container">
-                <div id="bench6" class="bench bench6">
-                    <div class="student">
-                        <h5>Student 16</h5>
-                        <p>Roll No: 016</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 17</h5>
-                        <p>Roll No: 017</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 18</h5>
-                        <p>Roll No: 018</p>
-                    </div>
-                </div>
+            <div class="student">
+                <h5>Seat No: R6</h5>
+                <p>Sumit D</p>
+                <p>421323622006</p>
             </div>
-            <!-- Additional Row -->
-            <div class="col-md-4 col-sm-6 bench_container">
-                <div id="bench7" class="bench bench7">
-                    <div class="student">
-                        <h5>Student 19</h5>
-                        <p>Roll No: 019</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 20</h5>
-                        <p>Roll No: 020</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 21</h5>
-                        <p>Roll No: 021</p>
-                    </div>
-                </div>
+        </div>
+    </div>
+
+    <!-- Bench 11 -->
+    <div class="col-md-4 col-sm-6 bench_container">
+        <div id="bench11" class="bench bench11">
+            <div class="student">
+                <h5>Seat No: L11</h5>
+                <p>Sunil P</p>
+                <p>421324622011</p>
             </div>
-            <div class="col-md-4 col-sm-6 bench_container">
-                <div id="bench8" class="bench bench8">
-                    <div class="student">
-                        <h5>Student 22</h5>
-                        <p>Roll No: 022</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 23</h5>
-                        <p>Roll No: 023</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 24</h5>
-                        <p>Roll No: 024</p>
-                    </div>
-                </div>
+            <div class="student">
+                <h5>Seat No: C11</h5>
+                <p>Shruti T</p>
+                <p>421323798021</p>
             </div>
-            <div class="col-md-4 col-sm-6 bench_container">
-                <div id="bench9" class="bench bench9">
-                    <div class="student">
-                        <h5>Student 25</h5>
-                        <p>Roll No: 025</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 26</h5>
-                        <p>Roll No: 026</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 27</h5>
-                        <p>Roll No: 027</p>
-                    </div>
-                </div>
+            <div class="student">
+                <h5>Seat No: R11</h5>
+                <p>Ashok K</p>
+                <p>421323622011</p>
             </div>
-            <!-- Additional Row -->
-            <div class="col-md-4 col-sm-6 bench_container">
-                <div id="bench10" class="bench bench10">
-                    <div class="student">
-                        <h5>Student 28</h5>
-                        <p>Roll No: 028</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 29</h5>
-                        <p>Roll No: 029</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 30</h5>
-                        <p>Roll No: 030</p>
-                    </div>
-                </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Bench 2 -->
+    <div class="col-md-4 col-sm-6 bench_container">
+        <div id="bench2" class="bench bench2">
+            <div class="student">
+                <h5>Seat No: L2</h5>
+                <p>Karan J</p>
+                <p>421324622002</p>
             </div>
-            <div class="col-md-4 col-sm-6 bench_container">
-                <div id="bench11" class="bench bench11">
-                    <div class="student">
-                        <h5>Student 31</h5>
-                        <p>Roll No: 031</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 32</h5>
-                        <p>Roll No: 032</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 33</h5>
-                        <p>Roll No: 033</p>
-                    </div>
-                </div>
+            <div class="student">
+                <h5>Seat No: C2</h5>
+                <p>Meena S</p>
+                <p>421323798012</p>
             </div>
-            <div class="col-md-4 col-sm-6 bench_container">
-                <div id="bench12" class="bench bench12">
-                    <div class="student">
-                        <h5>Student 34</h5>
-                        <p>Roll No: 034</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 35</h5>
-                        <p>Roll No: 035</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 36</h5>
-                        <p>Roll No: 036</p>
-                    </div>
-                </div>
+            <div class="student">
+                <h5>Seat No: R2</h5>
+                <p>Ravi T</p>
+                <p>421323622002</p>
             </div>
-            <!-- Additional Row -->
-            <div class="col-md-4 col-sm-6 bench_container">
-                <div id="bench13" class="bench bench13">
-                    <div class="student">
-                        <h5>Student 37</h5>
-                        <p>Roll No: 037</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 38</h5>
-                        <p>Roll No: 038</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 39</h5>
-                        <p>Roll No: 039</p>
-                    </div>
-                </div>
+        </div>
+    </div>
+
+    <!-- Bench 7 -->
+    <div class="col-md-4 col-sm-6 bench_container">
+        <div id="bench7" class="bench bench7">
+            <div class="student">
+                <h5>Seat No: L7</h5>
+                <p>Arvind S</p>
+                <p>421324622007</p>
             </div>
-            <div class="col-md-4 col-sm-6 bench_container">
-                <div id="bench14" class="bench bench14">
-                    <div class="student">
-                        <h5>Student 40</h5>
-                        <p>Roll No: 040</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 41</h5>
-                        <p>Roll No: 041</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 42</h5>
-                        <p>Roll No: 042</p>
-                    </div>
-                </div>
+            <div class="student">
+                <h5>Seat No: C7</h5>
+                <p>Neha P</p>
+                <p>421323798017</p>
             </div>
-            <div class="col-md-4 col-sm-6 bench_container">
-                <div id="bench15" class="bench bench15">
-                    <div class="student">
-                        <h5>Student 43</h5>
-                        <p>Roll No: 043</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 44</h5>
-                        <p>Roll No: 044</p>
-                    </div>
-                    <div class="student">
-                        <h5>Student 45</h5>
-                        <p>Roll No: 045</p>
-                    </div>
-                </div>
+            <div class="student">
+                <h5>Seat No: R7</h5>
+                <p>Karthik G</p>
+                <p>421323622007</p>
             </div>
+        </div>
+    </div>
+
+    <!-- Bench 12 -->
+    <div class="col-md-4 col-sm-6 bench_container">
+        <div id="bench12" class="bench bench12">
+            <div class="student">
+                <h5>Seat No: L12</h5>
+                <p>Lakshmi K</p>
+                <p>421324622012</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: C12</h5>
+                <p>Priya S</p>
+                <p>421323798022</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: R12</h5>
+                <p>Dinesh M</p>
+                <p>421323622012</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Bench 3 -->
+    <div class="col-md-4 col-sm-6 bench_container">
+        <div id="bench3" class="bench bench3">
+            <div class="student">
+                <h5>Seat No: L3</h5>
+                <p>Divya P</p>
+                <p>421324622003</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: C3</h5>
+                <p>Arun B</p>
+                <p>421323798013</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: R3</h5>
+                <p>Nisha G</p>
+                <p>421323622003</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bench 8 -->
+    <div class="col-md-4 col-sm-6 bench_container">
+        <div id="bench8" class="bench bench8">
+            <div class="student">
+                <h5>Seat No: L8</h5>
+                <p>Simran V</p>
+                <p>421324622008</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: C8</h5>
+                <p>Nikhil R</p>
+                <p>421323798018</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: R8</h5>
+                <p>Ashwini B</p>
+                <p>421323622008</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bench 13 -->
+    <div class="col-md-4 col-sm-6 bench_container">
+        <div id="bench13" class="bench bench13">
+            <div class="student">
+                <h5>Seat No: L13</h5>
+                <p>Arpita G</p>
+                <p>421324622013</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: C13</h5>
+                <p>Manish R</p>
+                <p>421323798023</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: R13</h5>
+                <p>Kumar P</p>
+                <p>421323622013</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Bench 4 -->
+    <div class="col-md-4 col-sm-6 bench_container">
+        <div id="bench4" class="bench bench4">
+            <div class="student">
+                <h5>Seat No: L4</h5>
+                <p>Priya R</p>
+                <p>421324622004</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: C4</h5>
+                <p>Rahul P</p>
+                <p>421323798014</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: R4</h5>
+                <p>Swati K</p>
+                <p>421323622004</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bench 9 -->
+    <div class="col-md-4 col-sm-6 bench_container">
+        <div id="bench9" class="bench bench9">
+            <div class="student">
+                <h5>Seat No: L9</h5>
+                <p>Ramesh K</p>
+                <p>421324622009</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: C9</h5>
+                <p>Priya J</p>
+                <p>421323798019</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: R9</h5>
+                <p>Ravi A</p>
+                <p>421323622009</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bench 14 -->
+    <div class="col-md-4 col-sm-6 bench_container">
+        <div id="bench14" class="bench bench14">
+            <div class="student">
+                <h5>Seat No: L14</h5>
+                <p>Kavi R</p>
+                <p>421324622014</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: C14</h5>
+                <p>Aarti S</p>
+                <p>421323798024</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: R14</h5>
+                <p>Vikram D</p>
+                <p>421323622014</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Bench 5 -->
+    <div class="col-md-4 col-sm-6 bench_container">
+        <div id="bench5" class="bench bench5">
+            <div class="student">
+                <h5>Seat No: L5</h5>
+                <p>Gaurav S</p>
+                <p>421324622005</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: C5</h5>
+                <p>Kavya V</p>
+                <p>421323798015</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: R5</h5>
+                <p>Amit K</p>
+                <p>421323622005</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bench 10 -->
+    <div class="col-md-4 col-sm-6 bench_container">
+        <div id="bench10" class="bench bench10">
+            <div class="student">
+                <h5>Seat No: L10</h5>
+                <p>Neelam R</p>
+                <p>421324622010</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: C10</h5>
+                <p>Anshika M</p>
+                <p>421323798020</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: R10</h5>
+                <p>Kiran G</p>
+                <p>421323622010</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bench 15 -->
+    <div class="col-md-4 col-sm-6 bench_container">
+        <div id="bench15" class="bench bench15">
+            <div class="student">
+                <h5>Seat No: L15</h5>
+                <p>Asha R</p>
+                <p>421324622015</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: C15</h5>
+                <p>Sonal T</p>
+                <p>421323798025</p>
+            </div>
+            <div class="student">
+                <h5>Seat No: R15</h5>
+                <p>Rahul G</p>
+                <p>421323622015</p>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
             <div>
                 <nav class="mt-2 mb-4">
                     <ul class="pagination d-flex justify-content-end align-items-center mb-0">

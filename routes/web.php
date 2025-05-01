@@ -10,6 +10,7 @@ use App\Http\Controllers\{ HomeController,
     TeacherController,
     ExamSeatingController,
     ExamController,
+    RoomController,
 };
 
 /*
@@ -169,6 +170,22 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/exam-seating', [ExamSeatingController::class, 'store'])->name('exam-seating.store');
         Route::get('/exam-seating12', [ExamSeatingController::class, 'getStudents'])->name('students.get');
         Route::get('/exam-seating/get-students', [App\Http\Controllers\ExamSeatingController::class, 'getStudentsByDepartmentAndYear']);
+    });
+
+    // Room Routes
+    Route::group(['prefix' => 'rooms', 'middleware' => 'auth'], function () {
+        Route::get('/', [RoomController::class, 'index'])->name('rooms')
+            ->middleware('role:admin|permission:read-rooms');
+        Route::get('create', [RoomController::class, 'create'])->name('rooms.create')
+            ->middleware('role:admin|permission:create-rooms');
+        Route::post('/', [RoomController::class, 'store'])->name('rooms.store')
+            ->middleware('role:admin|permission:create-rooms');
+        Route::get('{id}/edit', [RoomController::class, 'edit'])->name('rooms.edit')
+            ->middleware('role:admin|permission:update-rooms');
+        Route::match(['PUT', 'PATCH'], '{id}', [RoomController::class, 'update'])->name('rooms.update')
+            ->middleware('role:admin|permission:update-rooms');
+        Route::delete('{id}', [RoomController::class, 'destroy'])->name('rooms.delete')
+            ->middleware('role:admin|permission:delete-rooms');
     });
 
 });
