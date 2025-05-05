@@ -25,10 +25,13 @@ class RoomController extends Controller
             'number_of_seats' => 'required|integer',
             'floor' => 'required|string|max:255',
             'block' => 'required|string|max:255',
-            'allocated' => 'nullable|array',
+            'allocated' => 'nullable|string',
         ]);
 
-        Room::create($request->all());
+        $data = $request->all();
+        $data['allocated'] = $request->allocated ? explode(',', $request->allocated) : null;
+
+        Room::create($data);
         return redirect()->route('rooms')->with('success', 'Room added successfully.');
     }
 
@@ -45,11 +48,14 @@ class RoomController extends Controller
             'number_of_seats' => 'required|integer',
             'floor' => 'required|string|max:255',
             'block' => 'required|string|max:255',
-            'allocated' => 'nullable|array',
+            'allocated' => 'nullable|string',
         ]);
 
         $room = Room::findOrFail($id);
-        $room->update($request->all());
+        $data = $request->all();
+        $data['allocated'] = $request->allocated ? explode(',', $request->allocated) : null;
+
+        $room->update($data);
         return redirect()->route('rooms')->with('success', 'Room updated successfully.');
     }
 

@@ -9,7 +9,12 @@ class ExamSeating extends Model
     use HasFactory;
 
     protected $fillable = [
+        'student_id',
         'exam_name',
-        'seating_arrangement',
+        'room_no',
+        'floor',
+        'block',
+        'date',
+        'time',
     ];
 }

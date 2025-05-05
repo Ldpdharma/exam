@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Student;
+use Yajra\DataTables\Facades\DataTables; // Add this import
 
 class ExamSeatingController extends Controller
 {
@@ -79,6 +80,17 @@ class ExamSeatingController extends Controller
 
         // Return the data as JSON
         return response()->json($students);
+    }
+
+    public function getStudentDataForSeating()
+    {
+        $students = Student::select(['id', 'name', 'student_id', 'department', 'year', 'batch', 'email']);
+        return DataTables::of($students)
+            ->addColumn('actions', function ($student) {
+                return '<button class="btn btn-danger btn-sm remove-row">Remove</button>';
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
     }
     
 }

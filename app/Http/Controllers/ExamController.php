@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Exam;
+use Yajra\DataTables\Facades\DataTables; // Add this import
 
 class ExamController extends Controller
 {
@@ -72,5 +73,28 @@ class ExamController extends Controller
         Exam::destroy($id);
 
         return redirect()->route('exams')->with('success', 'Exam deleted successfully.');
+    }
+
+    public function getExamData()
+    {
+        $exams = Exam::select(['id', 'exam_name', 'date', 'day', 'department', 'subject', 'session']);
+        return DataTables::of($exams)
+            ->addColumn('actions', function ($exam) {
+                $editUrl = route('exams.edit', $exam->id);
+                $deleteUrl = route('exams.delete', $exam->id);
+                return '
+                    <a href="' . $editUrl . '" class="btn btn-warning btn-sm">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <form action="' . $deleteUrl . '" method="POST" style="display:inline;">
+                        ' . csrf_field() . method_field('DELETE') . '
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
+                ';
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
     }
 }

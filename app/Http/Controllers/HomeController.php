@@ -88,4 +88,34 @@ class HomeController extends Controller
     {
         return view('dashboard',$this->view_data);
     }
+
+    /**
+     * Display the "My View" page
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function myView()
+    {
+        $student = Auth::user();
+        $data = [
+            'main_title' => "My View",
+            'active_menu' => 'myview',
+            'student' => $student,
+        ];
+        return view('myview', $data);
+    }
+
+    /**
+     * Fetch exam data for the DataTable
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getExamData()
+    {
+        $student = Auth::user();
+        $examData = \App\Models\ExamSeating::where('student_id', $student->id)
+            ->select(['id', 'exam_name', 'room_no', 'floor', 'block', 'date', 'time']);
+
+        return datatables()->of($examData)->make(true);
+    }
 }

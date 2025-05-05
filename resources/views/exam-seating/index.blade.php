@@ -4,7 +4,15 @@
 <head>
     <link rel="stylesheet" href="{{ asset('css/exam-seating.css') }}">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
- 
+    <style>
+        #student-table tbody tr {
+            height: 30px; /* Reduce row height */
+        }
+
+         .form-select-sm {
+            width: 40%; /* Increase dropdown width by 10% */
+        }
+    </style>
 </head>
 <div class="container mt-4">
     <h3>Exam Seating</h3>
@@ -84,148 +92,35 @@
                 </tr>
             </thead>
             <tbody>
-                @if(isset($students) && count($students) > 0)
-                    @foreach($students as $index => $student)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $student->name }}</td>
-                            <td>{{ $student->student_id }}</td>
-                            <td>{{ $student->department }}</td>
-                            <td>{{ $student->year }}</td>
-                            <td>{{ $student->batch }}</td>
-                            <td>{{ $student->email }}</td>
-                            <td>{{ $student->register_number }}</td>
-                            <td>
-                                <button class="btn btn-danger btn-sm remove-row">Remove</button>
-                            </td>
-                        </tr>
-                    @endforeach
-                @else
-                    <tr>
-                        <td colspan="9" class="text-center">No records found</td>
-                    </tr>
-                @endif
+                <!-- Data will be populated via AJAX -->
             </tbody>
         </table>
     </div>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    @push('scripts')
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
     <script>
-        $(document).ready(function() {
-            const table = $('#student-table').DataTable({
-                paging: true,
-                searching: true,
-                ordering: true,
-                info: true,
-                lengthChange: true,
-                pageLength: 5,
-                language: {
-                    search: "Filter records:",
-                    lengthMenu: "Show _MENU_ entries",
-                    info: "Showing _START_ to _END_ of _TOTAL_ entries",
-                    paginate: {
-                        first: "First",
-                        last: "Last",
-                        next: "Next",
-                        previous: "Previous"
-                    }
-                }
+        $(document).ready(function () {
+            $('#student-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('exam-seating.students.data') }}",
+                columns: [
+                    { data: 'id', name: 'id' },
+                    { data: 'name', name: 'name' },
+                    { data: 'student_id', name: 'student_id' },
+                    { data: 'department', name: 'department' },
+                    { data: 'year', name: 'year' },
+                    { data: 'batch', name: 'batch' },
+                    { data: 'email', name: 'email' },
+                    { data: 'actions', name: 'actions', orderable: false, searchable: false }
+                ]
             });
-
-            // Fix: Ensure event delegation is properly set up for dynamically added rows
-            $('#student-table tbody').on('click', '.remove-row', function() {
-                const row = $(this).closest('tr'); // Get the closest table row
-                table.row(row).remove().draw(); // Remove the row from DataTable and redraw
-            });
-        });
-        document.addEventListener('DOMContentLoaded', function () {
-            const addRowButton = document.getElementById('add-row');
-            const selectedValuesTableBody = document.querySelector('#selected-values-table tbody');
-
-            addRowButton.addEventListener('click', function () {
-                const department = document.getElementById('department').value || 'All';
-                const year = document.getElementById('year').value || 'All';
-                const regnoStart = document.getElementById('regno_start').value || 'All';
-                const regnoEnd = document.getElementById('regno_end').value || 'All';
-
-                const row = `
-                    <tr>
-                        <td>${department}</td>
-                        <td>${year}</td>
-                        <td>${regnoStart}</td>
-                        <td>${regnoEnd}</td>
-                        <td>
-                            <button type="button" class="btn btn-danger btn-sm remove-row">Remove</button>
-                        </td>
-                    </tr>
-                `;
-                selectedValuesTableBody.insertAdjacentHTML('beforeend', row);
-            });
-
-            selectedValuesTableBody.addEventListener('click', function (event) {
-                if (event.target.classList.contains('remove-row')) {
-                    const row = event.target.closest('tr');
-                    row.remove();
-                }
-            });
-
-            const parentForm = document.getElementById('parent-form');
-            parentForm.addEventListener('submit', function (event) {
-                const selectedValuesTableBody = document.querySelector('#selected-values-table tbody');
-                const studentTableBody = document.querySelector('#student-table tbody');
-
-                event.preventDefault();
-
-                const rows = Array.from(selectedValuesTableBody.querySelectorAll('tr'));
-                rows.forEach(row => {
-                    const department = row.cells[0].textContent;
-                    const year = row.cells[1].textContent;
-                    const regnoStart = row.cells[2].textContent;
-                    const regnoEnd = row.cells[3].textContent;
-
-
-                    // Fetch records for each row
-                    fetch(`{{ url('/exam-seating/get-students') }}?department=${department}&year=${year}&regno_start=${regnoStart}&regno_end=${regnoEnd}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log(`Records for Department: ${department}, Year: ${year}, Reg No Start: ${regnoStart}, Reg No End: ${regnoEnd}`, data);
-                            // You can append the fetched data to the student table here
-                        })
-                        .catch(error => console.error('Error fetching records:', error));
-                });
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            // Fetch student data using AJAX
-            fetch('{{ route('students.get') }}')
-                .then(response => response.json())
-                .then(data => {
-                    const tableBody = document.getElementById('student-table-body');
-                    tableBody.innerHTML = ''; // Clear existing rows
-
-                    data.forEach((student, index) => {
-                        const row = `
-                            <tr>
-                                <td>${index + 1}</td>
-                                <td>${student.name}</td>
-                                <td>${student.student_id}</td>
-                                <td>${student.department}</td>
-                                <td>${student.year}</td>
-                                <td>${student.batch}</td>
-                                <td>${student.email}</td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                        `;
-                        tableBody.innerHTML += row;
-                    });
-                })
-                .catch(error => console.error('Error fetching student data:', error));
         });
     </script>
+    @endpush
     <!-- Main Content -->
     <div class="main_container">
         <div class="d-flex gap-2 mb-4 justify-content-end" style="height: 30px;">
@@ -248,17 +143,17 @@
     <!-- Bench 1 -->
     <div class="col-md-4 col-sm-6 bench_container">
         <div id="bench1" class="bench bench1">
-            <div class="student">
+            <div class="student dept1">
                 <h5>Seat No: L1</h5>
-                <p>Anjali R</p>
+                <p>Siva  M</p>
                 <p>421324622001</p>
             </div>
-            <div class="student">
+            <div class="student dept2">
                 <h5>Seat No: C1</h5>
-                <p>Vikram K</p>
+                <p>Kaviya K</p>
                 <p>421323798011</p>
             </div>
-            <div class="student">
+            <div class="student dept3">
                 <h5>Seat No: R1</h5>
                 <p>Pooja M</p>
                 <p>421323622001</p>
@@ -269,19 +164,19 @@
     <!-- Bench 6 -->
     <div class="col-md-4 col-sm-6 bench_container">
         <div id="bench6" class="bench bench6">
-            <div class="student">
+            <div class="student dept1">
                 <h5>Seat No: L6</h5>
-                <p>Radhika J</p>
+                <p>Rishika S</p>
                 <p>421324622006</p>
             </div>
-            <div class="student">
+            <div class="student dept2">
                 <h5>Seat No: C6</h5>
-                <p>Suman T</p>
+                <p>Kani G</p>
                 <p>421323798016</p>
             </div>
-            <div class="student">
+            <div class="student dept3">
                 <h5>Seat No: R6</h5>
-                <p>Sumit D</p>
+                <p>Sumitha R</p>
                 <p>421323622006</p>
             </div>
         </div>
@@ -290,19 +185,19 @@
     <!-- Bench 11 -->
     <div class="col-md-4 col-sm-6 bench_container">
         <div id="bench11" class="bench bench11">
-            <div class="student">
+            <div class="student dept1">
                 <h5>Seat No: L11</h5>
-                <p>Sunil P</p>
+                <p>Nithiya P</p>
                 <p>421324622011</p>
             </div>
-            <div class="student">
+            <div class="student dept2">
                 <h5>Seat No: C11</h5>
-                <p>Shruti T</p>
+                <p>Arul T</p>
                 <p>421323798021</p>
             </div>
-            <div class="student">
+            <div class="student dept3">
                 <h5>Seat No: R11</h5>
-                <p>Ashok K</p>
+                <p>Madhu K</p>
                 <p>421323622011</p>
             </div>
         </div>
@@ -313,19 +208,19 @@
     <!-- Bench 2 -->
     <div class="col-md-4 col-sm-6 bench_container">
         <div id="bench2" class="bench bench2">
-            <div class="student">
+            <div class="student dept1">
                 <h5>Seat No: L2</h5>
-                <p>Karan J</p>
+                <p>Subashre J</p>
                 <p>421324622002</p>
             </div>
-            <div class="student">
+            <div class="student dept2">
                 <h5>Seat No: C2</h5>
-                <p>Meena S</p>
+                <p>Sandy S</p>
                 <p>421323798012</p>
             </div>
-            <div class="student">
+            <div class="student dept3">
                 <h5>Seat No: R2</h5>
-                <p>Ravi T</p>
+                <p>Priya T</p>
                 <p>421323622002</p>
             </div>
         </div>
@@ -334,17 +229,17 @@
     <!-- Bench 7 -->
     <div class="col-md-4 col-sm-6 bench_container">
         <div id="bench7" class="bench bench7">
-            <div class="student">
+            <div class="student dept1">
                 <h5>Seat No: L7</h5>
                 <p>Arvind S</p>
                 <p>421324622007</p>
             </div>
-            <div class="student">
+            <div class="student dept2">
                 <h5>Seat No: C7</h5>
                 <p>Neha P</p>
                 <p>421323798017</p>
             </div>
-            <div class="student">
+            <div class="student dept3">
                 <h5>Seat No: R7</h5>
                 <p>Karthik G</p>
                 <p>421323622007</p>
@@ -355,17 +250,17 @@
     <!-- Bench 12 -->
     <div class="col-md-4 col-sm-6 bench_container">
         <div id="bench12" class="bench bench12">
-            <div class="student">
+            <div class="student dept1">
                 <h5>Seat No: L12</h5>
                 <p>Lakshmi K</p>
                 <p>421324622012</p>
             </div>
-            <div class="student">
+            <div class="student dept2">
                 <h5>Seat No: C12</h5>
                 <p>Priya S</p>
                 <p>421323798022</p>
             </div>
-            <div class="student">
+            <div class="student dept3">
                 <h5>Seat No: R12</h5>
                 <p>Dinesh M</p>
                 <p>421323622012</p>
@@ -378,17 +273,17 @@
     <!-- Bench 3 -->
     <div class="col-md-4 col-sm-6 bench_container">
         <div id="bench3" class="bench bench3">
-            <div class="student">
+            <div class="student dept1">
                 <h5>Seat No: L3</h5>
                 <p>Divya P</p>
                 <p>421324622003</p>
             </div>
-            <div class="student">
+            <div class="student dept2">
                 <h5>Seat No: C3</h5>
                 <p>Arun B</p>
                 <p>421323798013</p>
             </div>
-            <div class="student">
+            <div class="student dept3">
                 <h5>Seat No: R3</h5>
                 <p>Nisha G</p>
                 <p>421323622003</p>
@@ -399,17 +294,17 @@
     <!-- Bench 8 -->
     <div class="col-md-4 col-sm-6 bench_container">
         <div id="bench8" class="bench bench8">
-            <div class="student">
+            <div class="student dept1">
                 <h5>Seat No: L8</h5>
                 <p>Simran V</p>
                 <p>421324622008</p>
             </div>
-            <div class="student">
+            <div class="student dept2">
                 <h5>Seat No: C8</h5>
                 <p>Nikhil R</p>
                 <p>421323798018</p>
             </div>
-            <div class="student">
+            <div class="student dept3 ">
                 <h5>Seat No: R8</h5>
                 <p>Ashwini B</p>
                 <p>421323622008</p>
@@ -420,17 +315,17 @@
     <!-- Bench 13 -->
     <div class="col-md-4 col-sm-6 bench_container">
         <div id="bench13" class="bench bench13">
-            <div class="student">
+            <div class="student dept1">
                 <h5>Seat No: L13</h5>
                 <p>Arpita G</p>
                 <p>421324622013</p>
             </div>
-            <div class="student">
+            <div class="student dept2">
                 <h5>Seat No: C13</h5>
                 <p>Manish R</p>
                 <p>421323798023</p>
             </div>
-            <div class="student">
+            <div class="student dept3">
                 <h5>Seat No: R13</h5>
                 <p>Kumar P</p>
                 <p>421323622013</p>
@@ -443,17 +338,17 @@
     <!-- Bench 4 -->
     <div class="col-md-4 col-sm-6 bench_container">
         <div id="bench4" class="bench bench4">
-            <div class="student">
+            <div class="student dept1">
                 <h5>Seat No: L4</h5>
                 <p>Priya R</p>
                 <p>421324622004</p>
             </div>
-            <div class="student">
+            <div class="student dept2">
                 <h5>Seat No: C4</h5>
                 <p>Rahul P</p>
                 <p>421323798014</p>
             </div>
-            <div class="student">
+            <div class="student dept3">
                 <h5>Seat No: R4</h5>
                 <p>Swati K</p>
                 <p>421323622004</p>
@@ -464,17 +359,17 @@
     <!-- Bench 9 -->
     <div class="col-md-4 col-sm-6 bench_container">
         <div id="bench9" class="bench bench9">
-            <div class="student">
+            <div class="student dept1">
                 <h5>Seat No: L9</h5>
                 <p>Ramesh K</p>
                 <p>421324622009</p>
             </div>
-            <div class="student">
+            <div class="student dept2">
                 <h5>Seat No: C9</h5>
                 <p>Priya J</p>
                 <p>421323798019</p>
             </div>
-            <div class="student">
+            <div class="student dept3">
                 <h5>Seat No: R9</h5>
                 <p>Ravi A</p>
                 <p>421323622009</p>
@@ -485,17 +380,17 @@
     <!-- Bench 14 -->
     <div class="col-md-4 col-sm-6 bench_container">
         <div id="bench14" class="bench bench14">
-            <div class="student">
+            <div class="student dept1">
                 <h5>Seat No: L14</h5>
                 <p>Kavi R</p>
                 <p>421324622014</p>
             </div>
-            <div class="student">
+            <div class="student dept2">
                 <h5>Seat No: C14</h5>
                 <p>Aarti S</p>
                 <p>421323798024</p>
             </div>
-            <div class="student">
+            <div class="student dept3">
                 <h5>Seat No: R14</h5>
                 <p>Vikram D</p>
                 <p>421323622014</p>
@@ -508,17 +403,17 @@
     <!-- Bench 5 -->
     <div class="col-md-4 col-sm-6 bench_container">
         <div id="bench5" class="bench bench5">
-            <div class="student">
+            <div class="student dept1">
                 <h5>Seat No: L5</h5>
                 <p>Gaurav S</p>
                 <p>421324622005</p>
             </div>
-            <div class="student">
+            <div class="student dept2">
                 <h5>Seat No: C5</h5>
                 <p>Kavya V</p>
                 <p>421323798015</p>
             </div>
-            <div class="student">
+            <div class="student dept3">
                 <h5>Seat No: R5</h5>
                 <p>Amit K</p>
                 <p>421323622005</p>
@@ -529,17 +424,17 @@
     <!-- Bench 10 -->
     <div class="col-md-4 col-sm-6 bench_container">
         <div id="bench10" class="bench bench10">
-            <div class="student">
+            <div class="student dept1">
                 <h5>Seat No: L10</h5>
                 <p>Neelam R</p>
                 <p>421324622010</p>
             </div>
-            <div class="student">
+            <div class="student dept2">
                 <h5>Seat No: C10</h5>
                 <p>Anshika M</p>
                 <p>421323798020</p>
             </div>
-            <div class="student">
+            <div class="student dept3">
                 <h5>Seat No: R10</h5>
                 <p>Kiran G</p>
                 <p>421323622010</p>
@@ -550,17 +445,17 @@
     <!-- Bench 15 -->
     <div class="col-md-4 col-sm-6 bench_container">
         <div id="bench15" class="bench bench15">
-            <div class="student">
+            <div class="student dept1">
                 <h5>Seat No: L15</h5>
                 <p>Asha R</p>
                 <p>421324622015</p>
             </div>
-            <div class="student">
+            <div class="student dept2">
                 <h5>Seat No: C15</h5>
                 <p>Sonal T</p>
                 <p>421323798025</p>
             </div>
-            <div class="student">
+            <div class="student dept3">
                 <h5>Seat No: R15</h5>
                 <p>Rahul G</p>
                 <p>421323622015</p>

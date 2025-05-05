@@ -126,5 +126,26 @@ class StudentController extends Controller
         return redirect()->route('students.index')->with('success', 'Students imported successfully.');
     }
 
- 
+    public function getStudentData()
+    {
+        $students = Student::select(['id', 'name', 'student_id', 'department', 'year', 'batch', 'email']);
+        return datatables()->of($students)
+            ->addColumn('actions', function ($student) {
+                $editUrl = route('students.edit', $student->id);
+                $deleteUrl = route('students.delete', $student->id);
+                return '
+                    <a href="' . $editUrl . '" class="btn btn-warning btn-sm">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <form action="' . $deleteUrl . '" method="POST" style="display:inline;">
+                        ' . csrf_field() . method_field('DELETE') . '
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
+                ';
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
+    }
 }

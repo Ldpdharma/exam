@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 @section('content')
 <main class="app-main">
@@ -9,9 +8,9 @@
         <!--begin::Row-->
         <!-- Contact Info -->
         <div class="d-flex flex-wrap align-items-center gap-3 p-3" style="background-color:rgb(93, 230, 212);">
-            <span><i class="fas fa-phone-alt"></i> Phone: +1234567890</span>
-            <span><i class="fas fa-mobile-alt"></i> Cell: +0987654321</span>
-            <span><i class="fas fa-envelope"></i> Email: info@college.com</span>
+            <span><i class="fas fa-phone-alt"></i> Phone: +04142 285 601</span>
+            <span><i class="fas fa-mobile-alt"></i> Cell: +91 9763297201</span>
+            <span><i class="fas fa-envelope"></i> Email: kect@gmail.com</span>
         </div>
                 
         <!-- College Name & Logo -->
@@ -67,12 +66,12 @@
                         <li><a class="dropdown-item">Electrical Engineering</a></li>
                         <li><a class="dropdown-item">Mechanical Engineering</a></li>
                     </ul>
-                    <label for="department" class="mt-2" style="color:white;">Department</label>
+                    <!-- <label for="department" class="mt-2" style="color:white;">Department</label>
                     <select id="department" name="department" class="form-select mt-1">
                         @foreach(\App\Models\Student::select('department')->distinct()->get() as $dept)
                             <option value="{{ $dept->department }}">{{ $dept->department }}</option>
                         @endforeach
-                    </select>
+                    </select> -->
                 </div>
             </div>
         </div>
@@ -82,12 +81,13 @@
             <div class="row">
                 <div class="col-md-4 col-lg-3 ">
                     <h5>Address</h5>
-                    <p>54, College St, <br> College Main Road,<br> Kumarapuram,<br>
-                    Cuddalore, Tamilnadu.</p>
+              
+                    <p>Nellikuppam High Road, <br> S Kumarapuram, Cuddalore,<br>  Tamil Nadu 607109
+                  </p>
                 </div>
                 <div class="col-md-8 col-lg-9">
                     <iframe 
-                        src="https://www.google.com/maps/embed?..."
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3890.555994451121!2d79.71365!3d11.7687326!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a54a2411eea3d89%3A0xa2da54bcfd9b6e0b!2sKrishnasamy%20College%20of%20Engineering%20and%20Technology!5e0!3m2!1sen!2sus!4v1698765432100!5m2!1sen!2sus"
                         width="100%" height="200" style="border:0;" allowfullscreen>
                     </iframe>
                 </div>

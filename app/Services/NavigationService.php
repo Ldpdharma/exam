@@ -24,10 +24,10 @@ class NavigationService
             'sub_menu' => [],
         ];
 
-        if($user->hasPermission('*-users|*-roles')) {
+        if (!$user->hasRole('student') && $user->hasPermission('*-users|*-roles')) {
             $sub_menu = [];
             
-            if($user->hasPermission('*-users')) {
+            if ($user->hasPermission('*-users')) {
                 $sub_menu[] = [
                     'link' => route('users'),
                     'text' => "Users",
@@ -35,21 +35,34 @@ class NavigationService
                 ];
             }
 
-            if($user->hasPermission('*-roles')) {
+            if ($user->hasPermission('*-roles')) {
                 $sub_menu[] = [
                     'link' => route('roles'),
                     'text' => "Roles & Permissions",
                     'is_active' => $active_menu == 'roles_privilege',
                 ];
             }
-
+            if ($user->hasRole('admin') || $user->can('read-teacher')) { // Allow admin and users with read-students permission
+       
             $menus[] = [
                 'link' => 'AdminUserDropdown',
                 'text' => "Manage Users",
                 'icon' => 'fas fa-user-shield',
-                'is_active' => in_array($active_menu,['users', 'roles_privilege']),
+                'is_active' => in_array($active_menu, ['users', 'roles_privilege']),
                 'has_submenu' => true,
                 'sub_menu' => $sub_menu,
+            ];
+        }
+    }
+
+        if ($user->hasRole('Student')) {
+            $menus[] = [
+                'link' => route('myview'),
+                'text' => "My View",
+                'icon' => 'bi bi-people',
+                'is_active' => $active_menu == 'myview',
+                'has_submenu' => false,
+                'sub_menu' => [],
             ];
         }
 
@@ -84,6 +97,28 @@ class NavigationService
                 'sub_menu' => [],
             ];
         }
+        if ($user->hasRole('admin') || $user->can('read-exams')) {
+            $menus[] = [
+                'link' => route('rooms'),
+                'text' => "Rooms",
+                'icon' => 'fas fa-door-open', // Updated icon
+                'is_active' => $active_menu == 'rooms',
+                'has_submenu' => false,
+                'sub_menu' => [],
+            ];
+        }
+        if ($user->hasRole('admin') || $user->can('read-exams')) {
+            $menus[] = [
+                'link' => route('exam-seating.index'),
+                'text' => "Exam Seating",
+                'icon' => 'fas fa-chair',
+                'is_active' => $active_menu == 'exam-seating.index',
+                'has_submenu' => false,
+                'sub_menu' => [],
+            ];
+        }
+
+  
 
         $sub_menu = [
             [

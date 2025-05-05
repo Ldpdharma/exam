@@ -27,7 +27,7 @@
                                 <h3 class="card-title">{{ $sub_title }}</h3>
                             </div>
                             <div class="card-body">
-                                <table class="table table-bordered">
+                                <table class="table table-bordered table-hover" id="examsTable">
                                     <thead>
                                         <tr>
                                             <th>#</th>
@@ -41,27 +41,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($exams as $index => $exam)
-                                            <tr>
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>{{ $exam->exam_name }}</td>
-                                                <td>{{ $exam->date }}</td>
-                                                <td>{{ $exam->day }}</td>
-                                                <td>{{ $exam->department }}</td>
-                                                <td>{{ $exam->subject }}</td>
-                                                <td>{{ $exam->session }}</td>
-                                                <td>
-                                                    <a href="{{ route('exams.edit', $exam->id) }}"
-                                                        class="btn btn-warning btn-sm"> <i class="bi bi-pencil-square"></i></a>
-                                                    <form action="{{ route('exams.delete', $exam->id) }}" method="POST"
-                                                        style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm"> <i class="bi bi-trash"></i></button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                        <!-- Data will be populated via AJAX -->
                                     </tbody>
                                 </table>
                             </div>
@@ -72,3 +52,29 @@
             </div>
     </main>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
+<script>
+    $(document).ready(function () {
+        $('#examsTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('exams.data') }}",
+            columns: [
+                { data: 'id', name: 'id' },
+                { data: 'exam_name', name: 'exam_name' },
+                { data: 'date', name: 'date' },
+                { data: 'day', name: 'day' },
+                { data: 'department', name: 'department' },
+                { data: 'subject', name: 'subject' },
+                { data: 'session', name: 'session' },
+                { data: 'actions', name: 'actions', orderable: false, searchable: false }
+            ]
+        });
+    });
+</script>
+@endpush

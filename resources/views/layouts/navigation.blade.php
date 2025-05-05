@@ -45,12 +45,7 @@
                     @endif
                 </li>
                 @endforeach
-                <li class="nav-item">
-                    <a href="{{ route('exam-seating.index') }}" class="nav-link">
-                        <i class="fas fa-chair"></i>
-                        <p>Exam Seating</p>
-                    </a>
-                </li>
+
             </ul>
         </nav>
     </div>

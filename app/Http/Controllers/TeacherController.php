@@ -7,6 +7,7 @@ use App\Models\Student;
 use App\Models\Teacher;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\TeachersImport;
+use Yajra\DataTables\Facades\DataTables; // Add this import
 
 class StudentController extends Controller
 {
@@ -201,5 +202,28 @@ class TeacherController extends Controller
         Excel::import(new TeachersImport, $request->file('import_file'));
 
         return redirect()->route('teachers')->with('success', 'Teachers imported successfully.');
+    }
+
+    public function getTeacherData()
+    {
+        $teachers = Teacher::select(['id', 'name', 'teacher_id', 'department', 'email']);
+        return DataTables::of($teachers)
+            ->addColumn('actions', function ($teacher) {
+                $editUrl = route('teachers.edit', $teacher->id);
+                $deleteUrl = route('teachers.delete', $teacher->id);
+                return '
+                    <a href="' . $editUrl . '" class="btn btn-warning btn-sm">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <form action="' . $deleteUrl . '" method="POST" style="display:inline;">
+                        ' . csrf_field() . method_field('DELETE') . '
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
+                ';
+            })
+            ->rawColumns(['actions'])
+            ->make(true);
     }
 }

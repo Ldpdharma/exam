@@ -111,6 +111,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::match(['PUT', 'PATCH'], '{id}', [TeacherController::class, 'update'])->name('teachers.update')->middleware('role:admin|permission:update-teachers');
         Route::delete('{id}', [TeacherController::class, 'destroy'])->name('teachers.delete')->middleware('role:admin|permission:delete-teachers');
         Route::post('/import', [TeacherController::class, 'import'])->name('teachers.import');
+        Route::get('data', [TeacherController::class, 'getTeacherData'])->name('teachers.data');
     });
 
     Route::get('small-box',function() {
@@ -162,6 +163,7 @@ Route::group(['middleware' => 'auth'], function () {
             ->middleware('role:admin|permission:update-exams');
         Route::delete('{id}', [ExamController::class, 'destroy'])->name('exams.delete')
             ->middleware('role:admin|permission:delete-exams');
+        Route::get('data', [ExamController::class, 'getExamData'])->name('exams.data');
     });
 
     // Exam Seating Routes
@@ -170,6 +172,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/exam-seating', [ExamSeatingController::class, 'store'])->name('exam-seating.store');
         Route::get('/exam-seating12', [ExamSeatingController::class, 'getStudents'])->name('students.get');
         Route::get('/exam-seating/get-students', [App\Http\Controllers\ExamSeatingController::class, 'getStudentsByDepartmentAndYear']);
+        Route::get('exam-seating/students/data', [ExamSeatingController::class, 'getStudentDataForSeating'])->name('exam-seating.students.data');
     });
 
     // Room Routes
@@ -189,6 +192,13 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
 });
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('myview', [HomeController::class, 'myView'])->name('myview');
+    Route::get('myview/data', [HomeController::class, 'getExamData'])->name('myview.data');
+    Route::get('students/data', [StudentController::class, 'getStudentData'])->name('students.data');
+});
+
 // Admin access to student pages
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/students', [StudentController::class, 'index'])->name('admin.students.index');

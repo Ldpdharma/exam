@@ -36,40 +36,12 @@
                                             <th>Department</th>
                                             <th>Year</th>
                                             <th>Batch</th>
-                                            <th>Email</th> <!-- Add email column -->
+                                            <th>Email</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($students as $student)
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $student->name }}</td>
-                                                <td>{{ $student->student_id }}</td>
-                                                <td>{{ $student->department }}</td>
-                                                <td>{{ $student->year }}</td>
-                                                <td>{{ $student->batch }}</td>
-                                                <td>{{ $student->email }}</td>
-                                                <td>
-                                                    @if (auth()->user()->hasRole('admin') || auth()->user()->can('update-students'))
-                                                        <a href="{{ route('students.edit', $student->id) }}"
-                                                            class="btn btn-warning btn-sm">
-                                                            <i class="bi bi-pencil-square"></i>
-                                                        </a>
-                                                    @endif
-                                                    @if (auth()->user()->hasRole('admin') || auth()->user()->can('delete-students'))
-                                                        <form action="{{ route('students.delete', $student->id) }}"
-                                                            method="POST" style="display:inline;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                                <i class="bi bi-trash"></i>
-                                                            </button>
-                                                        </form>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                        <!-- Data will be populated via AJAX -->
                                     </tbody>
                                 </table>
                             </div>
@@ -80,3 +52,29 @@
         </div>
     </main>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+
+<script>
+    $(document).ready(function () {
+        $('#studentTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('students.data') }}",
+            columns: [
+                { data: 'id', name: 'id' },
+                { data: 'name', name: 'name' },
+                { data: 'student_id', name: 'student_id' },
+                { data: 'department', name: 'department' },
+                { data: 'year', name: 'year' },
+                { data: 'batch', name: 'batch' },
+                { data: 'email', name: 'email' },
+                { data: 'actions', name: 'actions', orderable: false, searchable: false }
+            ]
+        });
+    });
+</script>
+@endpush
