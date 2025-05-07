@@ -130,8 +130,12 @@
                                 @enderror
                             </div>
                             <div class="mt-4"style="max-width: 300px;">
-                                <button type="submit" class="btn btn-secondary w-100">Import Students</button>
+                                <button type="submit" class="btn btn-success w-100 mt-2">Import Students</button>
                             </div>
+                            <div class="mt-4" style="max-width: 300px;">
+                                <a href="{{ asset('storage/upload/student_sample_data.csv') }}" class="btn btn-warning w-100 mt-2" style="color:white;">Download Sample File</a>
+                            </div>
+
                         </div>
                     </form>
                 </div>

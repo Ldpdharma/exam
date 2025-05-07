@@ -3,22 +3,45 @@
 namespace App\Imports;
 
 use App\Models\Teacher;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\SkipsOnFailure;
+use Maatwebsite\Excel\Concerns\SkipsFailures;
 
-class TeachersImport implements ToModel
+class TeachersImport implements ToCollection, WithHeadingRow, WithValidation, SkipsOnFailure
 {
-    public function model(array $row)
+    use SkipsFailures;
+
+    public function collection(Collection $rows)
     {
-        return new Teacher([
-            'name' => $row[0],
-            'teacher_id' => $row[1],
-            'department' => $row[2],
-            'gender' => $row[3],
-            'dob' => $row[4],
-            'mobile' => $row[5],
-            'email' => $row[6],
-            'address' => $row[7],
-            'qualification' => $row[8],
-        ]);
+        foreach ($rows as $row) {
+            Teacher::create([
+                'name'         => $row['Name'],
+                'teacher_id'   => $row['Teacher_ID'],
+                'department'   => $row['Department'],
+                'gender'   => $row['Gender'],
+                'dob'   => $row['Date_of_birth'],
+                'mobile'   => $row['Mobile'],
+                'email'   => $row['Email'],
+                'address'   => $row['Address'],
+                'qualification'   => $row['Qualification'],
+            ]);
+        }
     }
-}
+    public function rules(): array
+    {
+        return [
+            '*.name'            => 'required|string|max:255',
+            '*.teacher_id'      => 'required|string|unique:teachers,student_id',
+            '*.department'      => 'required|string',
+            '*.gender'          => 'required|string',
+            '*.dob'             => 'required|date',
+            '*.mobile'          => 'required|max:15',
+            '*.email'           => 'required|email|unique:teachers,email',
+            '*.address'         => 'required|string',
+            '*.qualification' => 'required|string',
+        ];
+    }
+    }

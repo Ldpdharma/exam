@@ -61,6 +61,12 @@ class StudentController extends Controller
         // Debugging: Log the saved student
         \Log::info('Saved Student:', $student->toArray());
 
+        if ($student) {
+            flashMessage('success', "Success", "Student details have been added successfully.");
+        } else {
+            flashMessage('danger', "Error", "Failed to add student details.");
+        }
+
         return redirect()->route('students')->with('success', 'Student added successfully.');
     }
 
@@ -91,14 +97,25 @@ class StudentController extends Controller
             'register_number' => 'required|string|unique:students,register_number,' . $id,
         ]);
 
-        $student->update($validatedData);
+        $validatedData['dob'] = \Carbon\Carbon::createFromFormat('d-m-Y', $request->dob)->format('Y-m-d'); // Convert date
+
+        if ($student->update($validatedData)) {
+            flashMessage('success', "Success", "Student details have been updated successfully.");
+        } else {
+            flashMessage('danger', "Error", "Failed to update student details.");
+        }
 
         return redirect()->route('students')->with('success', 'Student updated successfully.');
     }
 
     public function destroy($id)
     {
-        Student::destroy($id);
+        if (Student::destroy($id)) {
+            flashMessage('success', "Success", "Student has been deleted successfully.");
+        } else {
+            flashMessage('danger', "Error", "Failed to delete student.");
+        }
+
         return redirect()->route('students')->with('success', 'Student deleted successfully.');
     }
 
@@ -107,7 +124,7 @@ class StudentController extends Controller
         $student = Student::findOrFail($id);
 
         // Ensure admin or owner can download
-        if (auth()->user()->hasRole('admin') || $student->user_id == auth()->id()) {
+   if (auth()->user()->hasRole('admin') || $student->user_id == auth()->id()) {
             // Logic to download student data
             return response()->download(storage_path("app/public/students/{$student->file}"));
         }
@@ -115,16 +132,63 @@ class StudentController extends Controller
         abort(403, 'Unauthorized action.');
     }
 
-    public function import(Request $request)
-    {
-        $request->validate([
-            'import_file' => 'required|mimes:csv,xlsx',
-        ]);
+    // public function import(Request $request)
+    // {
+    //     $request->validate([
+    //         'import_file' => 'required|mimes:csv,xlsx',
+    //     ]);
 
-        Excel::import(new StudentsImport, $request->file('import_file'));
+    //     try {
+    //         Excel::import(new StudentsImport, $request->file('import_file'));
+    //         flashMessage('success', "Success", "Students have been imported successfully.");
+    //         return redirect()->route('students')->with('success', 'Students imported successfully.');
+    //     } catch (\Exception $e) {
+    //         flashMessage('danger', "Error", "Failed to import students records.");
+    //         return redirect()->route('students.create')->with('success', 'Students imported successfully.');
+    //     }
 
-        return redirect()->route('students.index')->with('success', 'Students imported successfully.');
+    //     return redirect()->route('students')->with('success', 'Students imported successfully.');
+    // }
+
+
+public function import(Request $request)
+{
+    $request->validate([
+        'import_file' => 'required|mimes:csv,xlsx',
+    ]);
+
+    try {
+        $import = new StudentsImport;
+        Excel::import($import, $request->file('import_file'));
+
+        if ($import->failures()->isNotEmpty()) {
+            $errorTable = '<table class="table table-bordered table-sm">';
+            $errorTable .= '<thead><tr><th>Row</th><th>Field</th><th>Error</th><th>Value</th></tr></thead><tbody>';
+
+            foreach ($import->failures() as $failure) {
+                $value = $failure->values()[$failure->attribute()] ?? 'N/A';
+                $errorTable .= '<tr>';
+                $errorTable .= '<td>' . $failure->row() . '</td>';
+                $errorTable .= '<td>' . $failure->attribute() . '</td>';
+                $errorTable .= '<td>' . implode(', ', $failure->errors()) . '</td>';
+                $errorTable .= '<td>' . $value . '</td>';
+                $errorTable .= '</tr>';
+            }
+
+            $errorTable .= '</tbody></table>';
+
+            flashMessage('danger', "Import Failed", $errorTable);
+            return redirect()->route('students.create');
+        }
+
+        flashMessage('success', "Success", "Students have been imported successfully.");
+    } catch (\Exception $e) {
+        flashMessage('warning', "Error", "Failed to import student records: " . $e->getMessage());
     }
+
+    return redirect()->route('students');
+}
+
 
     public function getStudentData()
     {
