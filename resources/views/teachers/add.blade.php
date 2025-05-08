@@ -105,6 +105,29 @@
                             <button type="submit" class="btn btn-primary mt-3">Add Teacher</button>
                         </div>
                     </form>
+                    <hr class="mx-auto my-4"
+                        style="width: 90%; height: 2px; border: none; background: #ccc; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);">
+                    <form action="{{ route('teachers.import') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                            <div style="max-width: 300px;">
+                                <label for="import_file_teacher" class="form-label text-center">Import Teachers
+                                    (Excel/CSV)</label>
+                                <input type="file" name="import_file_teacher" class="form-control" id="import_file_teacher"
+                                    accept=".csv, .xlsx" required>
+                                @error('import_file_teacher')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mt-4"style="max-width: 300px;">
+                                <button type="submit" class="btn btn-success w-100 mt-2">Import Teacher</button>
+                            </div>
+                            <div class="mt-4" style="max-width: 300px;">
+                                <a href="{{ asset('storage/upload/teacher_sample_data.csv') }}" class="btn btn-warning w-100 mt-2" style="color:white;">Download Sample File</a>
+                            </div>
+
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

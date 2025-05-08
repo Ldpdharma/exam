@@ -30,13 +30,16 @@
                                 <table class="table table-bordered table-hover" id="studentTable">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <th>SI.NO</th>
                                             <th>Name</th>
                                             <th>Student ID</th>
                                             <th>Department</th>
                                             <th>Year</th>
                                             <th>Batch</th>
+                                            <th>Mobile</th> 
                                             <th>Email</th>
+                                            <th>register_number</th>
+                                            <th>roll_number</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -71,7 +74,10 @@
                 { data: 'department', name: 'department' },
                 { data: 'year', name: 'year' },
                 { data: 'batch', name: 'batch' },
+                { data: 'mobile', name: 'mobile' },
                 { data: 'email', name: 'email' },
+                { data: 'register_number', name: 'register_number' },
+                { data: 'roll_number', name: 'roll_number' },
                 { data: 'actions', name: 'actions', orderable: false, searchable: false }
             ]
         });

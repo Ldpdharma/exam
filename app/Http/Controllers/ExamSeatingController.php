@@ -51,7 +51,7 @@ class ExamSeatingController extends Controller
         $students = $query->get();
 
         // Log the fetched students for debugging
-        \Log::info('Fetched Students:', $students->toArray());
+       // Log::info('Fetched Students:', $students->toArray());
 
         // Return the view with the filtered student data
         return view('exam-seating.index', compact('students'));
@@ -75,7 +75,7 @@ class ExamSeatingController extends Controller
             select('id', 'name', 'student_id', 'department', 'year', 'batch', 'gender', 'register_number')
             ->get();    
         // Debugging: Log the fetched students
-        \Log::info('Fetched Students:', $students->toArray());
+       // \Log::info('Fetched Students:', $students->toArray());
 
 
         // Return the data as JSON

@@ -26,6 +26,7 @@ class CreateStudentsTable extends Migration
             $table->string('email')->unique(); // Add email column
             $table->text('address');
             $table->string('register_number')->unique()->index(); // Ensure this is a string
+            $table->string('roll_number')->unique();
             $table->unsignedBigInteger('user_id')->nullable(); // Foreign key to users table
             $table->timestamps();
 

@@ -50,16 +50,17 @@ class StudentController extends Controller
             'email' => 'required|email|unique:students', // Validate email
             'address' => 'required|string',
             'register_number' => 'required|string|unique:students',
+            'roll_number' => 'required|string|unique:students',
         ]);
 
         // Debugging: Log the validated data
-        \Log::info('Validated Data:', $validatedData);
+      //  \Log::info('Validated Data:', $validatedData);
 
         // Save the student record
         $student = Student::create($validatedData);
 
         // Debugging: Log the saved student
-        \Log::info('Saved Student:', $student->toArray());
+      //  \Log::info('Saved Student:', $student->toArray());
 
         if ($student) {
             flashMessage('success', "Success", "Student details have been added successfully.");
@@ -95,9 +96,10 @@ class StudentController extends Controller
             'email' => 'required|email|unique:students,email,' . $id, // Validate email
             'address' => 'required|string',
             'register_number' => 'required|string|unique:students,register_number,' . $id,
+            'roll_number' => 'required|string|unique:students,roll_number,' . $id,
         ]);
 
-        $validatedData['dob'] = \Carbon\Carbon::createFromFormat('d-m-Y', $request->dob)->format('Y-m-d'); // Convert date
+        $validatedData['dob'] = $request->dob;
 
         if ($student->update($validatedData)) {
             flashMessage('success', "Success", "Student details have been updated successfully.");
@@ -132,36 +134,24 @@ class StudentController extends Controller
         abort(403, 'Unauthorized action.');
     }
 
-    // public function import(Request $request)
-    // {
-    //     $request->validate([
-    //         'import_file' => 'required|mimes:csv,xlsx',
-    //     ]);
-
-    //     try {
-    //         Excel::import(new StudentsImport, $request->file('import_file'));
-    //         flashMessage('success', "Success", "Students have been imported successfully.");
-    //         return redirect()->route('students')->with('success', 'Students imported successfully.');
-    //     } catch (\Exception $e) {
-    //         flashMessage('danger', "Error", "Failed to import students records.");
-    //         return redirect()->route('students.create')->with('success', 'Students imported successfully.');
-    //     }
-
-    //     return redirect()->route('students')->with('success', 'Students imported successfully.');
-    // }
 
 
 public function import(Request $request)
 {
-    $request->validate([
-        'import_file' => 'required|mimes:csv,xlsx',
-    ]);
+    // $request->validate([
+    //     'import_file' => 'required|mimes:csv,xlsx',
+    // ]);
 
     try {
         $import = new StudentsImport;
         Excel::import($import, $request->file('import_file'));
 
-        if ($import->failures()->isNotEmpty()) {
+        if ($import->failures()->isEmpty()) {
+            flashMessage('danger', "Import Failed", "imported file must have at least one record.");
+            return redirect()->route('students.create');
+           
+        } 
+        elseif($import->failures()->isNotEmpty()) {
             $errorTable = '<table class="table table-bordered table-sm">';
             $errorTable .= '<thead><tr><th>Row</th><th>Field</th><th>Error</th><th>Value</th></tr></thead><tbody>';
 
@@ -184,6 +174,7 @@ public function import(Request $request)
         flashMessage('success', "Success", "Students have been imported successfully.");
     } catch (\Exception $e) {
         flashMessage('warning', "Error", "Failed to import student records: " . $e->getMessage());
+        return redirect()->route('students.create');
     }
 
     return redirect()->route('students');
@@ -192,7 +183,7 @@ public function import(Request $request)
 
     public function getStudentData()
     {
-        $students = Student::select(['id', 'name', 'student_id', 'department', 'year', 'batch', 'email']);
+        $students = Student::select(['id', 'name', 'student_id', 'department', 'year', 'batch', 'mobile','email','register_number','roll_number']);
         return datatables()->of($students)
             ->addColumn('actions', function ($student) {
                 $editUrl = route('students.edit', $student->id);

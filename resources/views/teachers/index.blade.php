@@ -32,11 +32,14 @@
                                 <table class="table table-bordered table-hover" id="teachersTable">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <th>Si.No.</th>
                                             <th>Name</th>
+                                            <th>Qualification</th>
                                             <th>Teacher ID</th>
                                             <th>Department</th>
+                                            <th>Mobile</th>
                                             <th>Email</th>
+                                            <th>Address</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -67,9 +70,12 @@
             columns: [
                 { data: 'id', name: 'id' },
                 { data: 'name', name: 'name' },
+                { data: 'qualification', name: 'qualification' }, // Added qualification
                 { data: 'teacher_id', name: 'teacher_id' },
                 { data: 'department', name: 'department' },
+                { data: 'mobile', name: 'mobile' }, // Added mobile
                 { data: 'email', name: 'email' },
+                { data: 'address', name: 'address' }, // Added address
                 { data: 'actions', name: 'actions', orderable: false, searchable: false }
             ]
         });

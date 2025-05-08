@@ -30,6 +30,7 @@ class StudentsImport implements ToCollection, WithHeadingRow, WithValidation, Sk
                 'email'           => $row['email'],
                 'address'         => $row['address'],
                 'register_number' => $row['register_number'],
+                'roll_number'     => $row['roll_number'],
             ]);
         }
     }
@@ -48,6 +49,7 @@ class StudentsImport implements ToCollection, WithHeadingRow, WithValidation, Sk
             '*.email'           => 'required|email|unique:students,email',
             '*.address'         => 'required|string',
             '*.register_number' => 'required|unique:students,register_number',
+            '*.roll_number'     => 'required|unique:students,roll_number',
         ];
     }
 }

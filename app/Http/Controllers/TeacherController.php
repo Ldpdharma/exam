@@ -195,18 +195,51 @@ class TeacherController extends Controller
 
     public function import(Request $request)
     {
-        $request->validate([
-            'import_file' => 'required|mimes:csv,xlsx',
-        ]);
-
-        Excel::import(new TeachersImport, $request->file('import_file'));
-
-        return redirect()->route('teachers')->with('success', 'Teachers imported successfully.');
+        
+        // $request->validate([
+        //     'import_file' => 'required|mimes:csv,xlsx',
+        // ]);
+    
+        try {
+            $import = new TeachersImport;
+            Excel::import($import, $request->file('import_file'));
+    
+            if ($import->failures()->isEmpty()) {
+                flashMessage('danger', "Import Failed", "imported file must have at least one record.");
+                return redirect()->route('teachers.create');
+               
+            } 
+            elseif($import->failures()->isNotEmpty()) {
+                $errorTable = '<table class="table table-bordered table-sm">';
+                $errorTable .= '<thead><tr><th>Row</th><th>Field</th><th>Error</th><th>Value</th></tr></thead><tbody>';
+    
+                foreach ($import->failures() as $failure) {
+                    $value = $failure->values()[$failure->attribute()] ?? 'N/A';
+                    $errorTable .= '<tr>';
+                    $errorTable .= '<td>' . $failure->row() . '</td>';
+                    $errorTable .= '<td>' . $failure->attribute() . '</td>';
+                    $errorTable .= '<td>' . implode(', ', $failure->errors()) . '</td>';
+                    $errorTable .= '<td>' . $value . '</td>';
+                    $errorTable .= '</tr>';
+                }
+    
+                $errorTable .= '</tbody></table>';
+    
+                flashMessage('danger', "Import Failed", $errorTable);
+                return redirect()->route('teachers.create');
+            }
+    
+            flashMessage('success', "Success", "teachers have been imported successfully.");
+        } catch (\Exception $e) {
+            flashMessage('warning', "Error", "Failed to import teachers records: " . $e->getMessage());
+            return redirect()->route('teachers.create');
+        }
+    
+        return redirect()->route('teachers');
     }
-
     public function getTeacherData()
     {
-        $teachers = Teacher::select(['id', 'name', 'teacher_id', 'department', 'email']);
+        $teachers = Teacher::select(['id', 'name','qualification','teacher_id', 'department', 'mobile','email','address']);
         return DataTables::of($teachers)
             ->addColumn('actions', function ($teacher) {
                 $editUrl = route('teachers.edit', $teacher->id);

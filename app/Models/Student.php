@@ -21,6 +21,7 @@ class Student extends Model
         'email', // Add email to fillable
         'address',
         'register_number',
+        'roll_number',
         'user_id',
     ];
 }

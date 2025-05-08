@@ -109,6 +109,14 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                <div class="mb-3">
+                                    <label for="roll_number" class="form-label">Roll Number</label>
+                                    <input type="text" name="roll_number" class="form-control" value="{{ old('roll_number') }}"
+                                        required>
+                                    @error('roll_number')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
                                 <div class="justify-content-end d-flex mt-5">
                                     <a href="{{ route('students') }}" class="btn btn-primary me-2 mt-3">Back</a>
                                     <button type="submit" class="btn btn-primary  me-2 mt-3">Add Student</button>
