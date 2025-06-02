@@ -173,6 +173,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/exam-seating12', [ExamSeatingController::class, 'getStudents'])->name('students.get');
         Route::get('/exam-seating/get-students', [App\Http\Controllers\ExamSeatingController::class, 'getStudentsByDepartmentAndYear']);
         Route::get('exam-seating/students/data', [ExamSeatingController::class, 'getStudentDataForSeating'])->name('exam-seating.students.data');
+        Route::post('/exam-seating/filter-multi', [ExamSeatingController::class, 'filterMulti'])->name('exam-seating.filter-multi');
     });
 
     // Room Routes

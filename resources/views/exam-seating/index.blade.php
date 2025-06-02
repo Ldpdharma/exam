@@ -22,7 +22,7 @@
             <div class="col-md-3">
                 <label for="department" class="form-label">Department</label>
                 <select id="department" name="department" class="form-select">
-                    <option value="">All</option>
+                    <option value="all">All</option>
                     @foreach(\App\Models\Student::select('department')->distinct()->get() as $dept)
                         <option value="{{ $dept->department }}">{{ $dept->department }}</option>
                     @endforeach
@@ -31,7 +31,7 @@
             <div class="col-md-3">
                 <label for="year" class="form-label">Year</label>
                 <select id="year" name="year" class="form-select">
-                    <option value="">All</option>
+                    <option value="all">All</option>
                     @foreach(\App\Models\Student::select('year')->distinct()->get() as $yr)
                         <option value="{{ $yr->year }}">{{ $yr->year }}</option>
                     @endforeach
@@ -40,7 +40,7 @@
             <div class="col-md-3">
                 <label for="regno_start" class="form-label">Reg No Start</label>
                 <select id="regno_start" name="regno_start" class="form-select">
-                    <option value="">All</option>
+                    <option value="all">All</option>
                     @foreach(\App\Models\Student::select('register_number')->distinct()->get() as $regno)
                         <option value="{{ $regno->register_number }}">{{ $regno->register_number }}</option>
                     @endforeach
@@ -49,7 +49,7 @@
             <div class="col-md-3">
                 <label for="regno_end" class="form-label">Reg No End</label>
                 <select id="regno_end" name="regno_end" class="form-select">
-                    <option value="">All</option>
+                    <option value="all">All</option>
                     @foreach(\App\Models\Student::select('register_number')->distinct()->get() as $regno)
                         <option value="{{ $regno->register_number }}">{{ $regno->register_number }}</option>
                     @endforeach
@@ -75,7 +75,7 @@
             </table>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Show</button>
+        <button type="submit" class="btn btn-primary mt-3" id="show_data">Show</button>
     </form>
     <div>
         <table id="student-table" class="table table-striped table-bordered">
@@ -486,6 +486,7 @@
     
 </div>
 @endsection
+<script src="{{ asset('js/exam-seating.js') }}"></script>
 
 
 
