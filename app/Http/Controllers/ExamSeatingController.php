@@ -192,15 +192,15 @@ class ExamSeatingController extends Controller
             }
             $students = $students->merge($query->get());
         }
-        // Remove duplicates and sort by department and year
         $students = $students->unique('id')->sortBy([['department', 'asc'], ['year', 'asc']]);
-        // Return only required fields for studentsArray
         $result = $students->map(function($student) {
             return [
                 $student->name,
                 $student->register_number,
                 $student->department,
-                $student->year
+                $student->year,
+                $student->batch,
+                $student->email
             ];
         })->values();
         return response()->json($result);
