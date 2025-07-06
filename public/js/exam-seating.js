@@ -1,3 +1,6 @@
+// Move studentsArray to the very top, global scope
+let studentsArray = [];
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Exam Seating page loaded.');
 
@@ -14,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const studentTableBody = document.querySelector('#student-table tbody');
 
     let selectedCriteria = [];
-    let studentsArray = [];
 
     function updateTable(students) {
         const tableBody = document.querySelector('#student-table tbody');
@@ -333,78 +335,134 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
- function showAlert() {
-        alert("Button was clicked!");
-
-          
-        // studentsArray should be an array of arrays or objects: [[name, regno], ...] or [{name, register_number}, ...]
-        // For demo, you may want to console.log(studentsArray) here
-        const seatLabels = ['L', 'C', 'R'];
-        const benches = 15;
-        const seatsPerClassroom = benches * 3;
-        let totalStudents = studentsArray.length;
-        let classroomsNeeded = Math.ceil(totalStudents / seatsPerClassroom);
-        let studentIdx = 0;
-
-        // Fill the first classroom (static HTML)
-        for (let bench = 1; bench <= benches; bench++) {
-            for (let dept = 0; dept < 3; dept++) {
-                if (studentIdx >= totalStudents) break;
-                let seat = seatLabels[dept] + bench;
-                let nameElem = document.getElementById('name' + seat);
-                let regElem = document.getElementById('reg' + seat);
-                let student = studentsArray[studentIdx];
-                if (student) {
-                    // Support both array and object format
-                    let name = Array.isArray(student) ? student[0] : student.name;
-                    let reg = Array.isArray(student) ? student[1] : student.register_number;
-                    if (nameElem) nameElem.textContent = name || '';
-                    if (regElem) regElem.textContent = reg || '';
+function showAlert() {
+    let seatingOrder = document.getElementById('seating-order') ? document.getElementById('seating-order').value : 'row';
+    if (typeof studentsArray === 'undefined' || !Array.isArray(studentsArray) || studentsArray.length === 0) {
+        alert('No students to arrange!');
+        return;
+    }
+    let arr = studentsArray.slice();
+    function getDeptShort(dept) {
+        if (!dept) return '';
+        return dept.split(' ').map(w => w[0]).join('').toUpperCase();
+    }
+    // Sort students according to selected order
+    if (seatingOrder === 'row') {
+        arr.sort((a, b) => {
+            if (a[2] === b[2]) {
+                if (a[3] === b[3]) {
+                    return a[0].localeCompare(b[0]);
                 }
+                return a[3] - b[3];
+            }
+            return a[2].localeCompare(b[2]);
+        });
+    } else if (seatingOrder === 'column') {
+        arr.sort((a, b) => {
+            if (a[3] === b[3]) {
+                if (a[2] === b[2]) {
+                    return a[0].localeCompare(b[0]);
+                }
+                return a[2].localeCompare(b[2]);
+            }
+            return a[3] - b[3];
+        });
+    } else if (seatingOrder === 'zigzag') {
+        arr.sort((a, b) => {
+            if (a[2] === b[2]) {
+                if (a[3] === b[3]) {
+                    return a[0].localeCompare(b[0]);
+                }
+                return a[3] - b[3];
+            }
+            return a[2].localeCompare(b[2]);
+        });
+        let chunked = [];
+        for (let i = 0; i < arr.length; i += 3) {
+            let chunk = arr.slice(i, i + 3);
+            if (Math.floor(i / 3) % 2 === 1) chunk.reverse();
+            chunked = chunked.concat(chunk);
+        }
+        arr = chunked;
+    }
+    // Assign seats in the order: L1-L15, C1-C15, R1-R15
+    const seatLabels = ['L', 'C', 'R'];
+    // Clear all static bench values first
+    for (let bench = 1; bench <= 15; bench++) {
+        for (let d = 0; d < 3; d++) {
+            let seat = seatLabels[d] + bench;
+            let nameElem = document.getElementById('name' + seat);
+            let regElem = document.getElementById('reg' + seat);
+            if (nameElem) nameElem.textContent = '';
+            if (regElem) regElem.textContent = '';
+        }
+    }
+    // Fill seats: first all L1-L15, then C1-C15, then R1-R15
+    let totalSeats = 15 * 3;
+    let seatOrder = [];
+    for (let d = 0; d < 3; d++) {
+        for (let bench = 1; bench <= 15; bench++) {
+            seatOrder.push({ label: seatLabels[d] + bench, idx: seatOrder.length });
+        }
+    }
+    for (let i = 0; i < seatOrder.length; i++) {
+        let seat = seatOrder[i].label;
+        let nameElem = document.getElementById('name' + seat);
+        let regElem = document.getElementById('reg' + seat);
+        let student = arr[i];
+        if (student) {
+            let name = Array.isArray(student) ? student[0] : student.name;
+            let dept = Array.isArray(student) ? student[2] : student.department;
+            let reg = Array.isArray(student) ? student[1] : student.register_number;
+            let deptShort = getDeptShort(dept);
+            if (nameElem) nameElem.textContent = `${i+1}. ${name} (${deptShort})`;
+            if (regElem) regElem.textContent = reg || '';
+        } else {
+            if (nameElem) nameElem.textContent = '';
+            if (regElem) regElem.textContent = '';
+        }
+    }
+    // Remove any previously created extra classrooms
+    document.querySelectorAll('.classroom.extra-seating').forEach(e => e.remove());
+    // If more students, create extra classrooms dynamically
+    let benches = 15;
+    let seatsPerClassroom = benches * 3;
+    let totalStudents = arr.length;
+    let classroomsNeeded = Math.ceil(totalStudents / seatsPerClassroom);
+    let studentIdx = seatOrder.length;
+    for (let room = 1; room < classroomsNeeded; room++) {
+        let classroomDiv = document.createElement('div');
+        classroomDiv.className = 'classroom extra-seating mt-4 seating-page';
+        classroomDiv.style.display = 'none';
+        let benchesRow = document.createElement('div');
+        benchesRow.className = 'row class_room';
+        for (let bench = 1; bench <= benches && studentIdx < totalStudents; bench++) {
+            let containerDiv = document.createElement('div');
+            containerDiv.className = 'col-md-4 col-sm-6 bench_container';
+            let benchDiv = document.createElement('div');
+            benchDiv.className = 'bench bench' + bench;
+            for (let d = 0; d < 3 && studentIdx < totalStudents; d++) {
+                let seat = seatLabels[d] + bench;
+                let student = arr[studentIdx];
+                let name = Array.isArray(student) ? student[0] : student.name;
+                let dept = Array.isArray(student) ? student[2] : student.department;
+                let reg = Array.isArray(student) ? student[1] : student.register_number;
+                let deptShort = getDeptShort(dept);
+                let deptClass = 'student dept' + (d + 1);
+                let studentDiv = document.createElement('div');
+                studentDiv.className = deptClass;
+                studentDiv.innerHTML = `<h5>Seat No: ${seat}</h5><p>${studentIdx+1}. ${name} (${deptShort})</p><p>${reg || ''}</p>`;
+                benchDiv.appendChild(studentDiv);
                 studentIdx++;
             }
+            containerDiv.appendChild(benchDiv);
+            benchesRow.appendChild(containerDiv);
         }
-
-        // Remove any previously created extra classrooms
-        document.querySelectorAll('.classroom.extra-seating').forEach(e => e.remove());
-
-        // If more students, create extra classrooms dynamically
-        for (let room = 1; room < classroomsNeeded; room++) {
-            let classroomDiv = document.createElement('div');
-            classroomDiv.className = 'classroom extra-seating mt-4 seating-page';
-            classroomDiv.style.display = 'none';
-            let benchesRow = document.createElement('div');
-            benchesRow.className = 'row class_room';
-            for (let bench = 1; bench <= benches && studentIdx < totalStudents; bench++) {
-                let containerDiv = document.createElement('div');
-                containerDiv.className = 'col-md-4 col-sm-6 bench_container';
-                let benchDiv = document.createElement('div');
-                benchDiv.className = 'bench bench' + bench;
-                for (let dept = 0; dept < 3 && studentIdx < totalStudents; dept++) {
-                    let seat = seatLabels[dept] + bench;
-                    let student = studentsArray[studentIdx];
-                    let name = Array.isArray(student) ? student[0] : student.name;
-                    let reg = Array.isArray(student) ? student[1] : student.register_number;
-                    let deptClass = 'dept' + (dept + 1);
-                    let studentDiv = document.createElement('div');
-                    studentDiv.className = 'student ' + deptClass;
-                    studentDiv.innerHTML = `<h5>Seat No: ${seat}</h5><p>${name || ''}</p><p>${reg || ''}</p>`;
-                    benchDiv.appendChild(studentDiv);
-                    studentIdx++;
-                }
-                containerDiv.appendChild(benchDiv);
-                benchesRow.appendChild(containerDiv);
-            }
-            classroomDiv.appendChild(benchesRow);
-            document.querySelector('.main-content').appendChild(classroomDiv);
-        }
-
-        // Pagination logic (show only first classroom, hide others)
-        let allClassrooms = document.querySelectorAll('.classroom');
-        allClassrooms.forEach((el, idx) => {
-            el.style.display = idx === 0 ? '' : 'none';
-        });
-        // Optionally, update pagination controls here
-    
-
+        classroomDiv.appendChild(benchesRow);
+        document.querySelector('.main-content').appendChild(classroomDiv);
     }
+    let allClassrooms = document.querySelectorAll('.classroom');
+    allClassrooms.forEach((el, idx) => {
+        el.style.display = idx === 0 ? '' : 'none';
+    });
+}

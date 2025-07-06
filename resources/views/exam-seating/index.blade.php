@@ -135,8 +135,7 @@
 
             </tbody>
         </table>
-        <button onclick="showAlert()">Click Me</button>
-
+       
 <!-- JavaScript Function -->
     </div>
     @push('scripts')
