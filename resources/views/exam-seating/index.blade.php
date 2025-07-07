@@ -169,7 +169,7 @@
 
         <div class="main-content row g-3 p-2 mt-2" style="background-color:rgb(237, 241, 245);">
 
-            <div class="d-flex gap-2 mb-4 justify-content-end" style="height: 30px;">
+            <!-- <div class="d-flex gap-2 mb-4 justify-content-end" style="height: 30px;">
 
                 <div class="col-12 col-md-3  d-flex align-items-center">
                     <label for="roomno" class="form-label me-2 mb-0" style="white-space: nowrap;">Room No</label>
@@ -182,26 +182,47 @@
                 <div>
                     <button type="submit" class="btn btn-primary btn-sm">Download</button>
                 </div>
+            </div> -->
+            <div class="row mb-3 align-items-center">
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-success btn-sm me-2" id="export_excel">
+                        <i class="bi bi-file-earmark-excel"></i> Export to Excel
+                    </button>
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-danger btn-sm me-2" id="export_pdf">
+                        <i class="bi bi-file-earmark-pdf"></i> Export to PDF
+                    </button>
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-primary btn-sm me-2" id="print_seating">
+                        <i class="bi bi-printer"></i> Print
+                    </button>
+                </div>
+                <div class="col-auto d-flex align-items-center">
+                    <span class="me-1"><i class="bi bi-search"></i></span>
+                    <input type="text" id="search" name="search" class="form-control form-control-sm" placeholder="Search">
+                </div>
             </div>
-            <div class="classroom">
+            <div class="classroom" style="display:none">
                 <div class="row class_room">
                     <!-- Bench 1 -->
                     <div class="col-md-4 col-sm-6 bench_container">
                         <div id="bench1" class="bench bench1">
                             <div class="student dept1">
                                 <h5 id="seatL1">Seat No: L1</h5>
-                                <p id="nameL1">Siva M</p>
-                                <p id="regL1">421324622001</p>
+                                <p id="nameL1"></p>
+                                <p id="regL1"></p>
                             </div>
                             <div class="student dept2">
                                 <h5 id="seatC1">Seat No: C1</h5>
-                                <p id="nameC1">Kaviya K</p>
-                                <p id="regC1">421323798011</p>
+                                <p id="nameC1"></p>
+                                <p id="regC1"></p>
                             </div>
                             <div class="student dept3">
                                 <h5 id="seatR1">Seat No: R1</h5>
-                                <p id="nameR1">Pooja M</p>
-                                <p id="regR1">421323622001</p>
+                                <p id="nameR1"></p>
+                                <p id="regR1"></p>
                             </div>
                         </div>
                     </div>
@@ -211,18 +232,18 @@
                         <div id="bench6" class="bench bench6">
                             <div class="student dept1">
                                 <h5 id="seatL6">Seat No: L6</h5>
-                                <p id="nameL6">Rishika S</p>
-                                <p id="regL6">421324622006</p>
+                                <p id="nameL6"></p>
+                                <p id="regL6"></p>
                             </div>
                             <div class="student dept2">
                                 <h5 id="seatC6">Seat No: C6</h5>
-                                <p id="nameC6">Kani G</p>
-                                <p id="regC6">421323798016</p>
+                                <p id="nameC6"></p>
+                                <p id="regC6"></p>
                             </div>
                             <div class="student dept3">
                                 <h5 id="seatR6">Seat No: R6</h5>
-                                <p id="nameR6">Sumitha R</p>
-                                <p id="regR6">421323622006</p>
+                                <p id="nameR6"></p>
+                                <p id="regR6"></p>
                             </div>
                         </div>
                     </div>
@@ -232,18 +253,18 @@
                         <div id="bench11" class="bench bench11">
                             <div class="student dept1">
                                 <h5 id="seatL11">Seat No: L11</h5>
-                                <p id="nameL11">Nithiya P</p>
-                                <p id="regL11">421324622011</p>
+                                <p id="nameL11"></p>
+                                <p id="regL11"></p>
                             </div>
                             <div class="student dept2">
                                 <h5 id="seatC11">Seat No: C11</h5>
-                                <p id="nameC11">Arul T</p>
-                                <p id="regC11">421323798021</p>
+                                <p id="nameC11"></p>
+                                <p id="regC11"></p>
                             </div>
                             <div class="student dept3">
                                 <h5 id="seatR11">Seat No: R11</h5>
-                                <p id="nameR11">Madhu K</p>
-                                <p id="regR11">421323622011</p>
+                                <p id="nameR11"></p>
+                                <p id="regR11"></p>
                             </div>
                         </div>
                     </div>
@@ -255,18 +276,18 @@
                         <div id="bench2" class="bench bench2">
                             <div class="student dept1">
                                 <h5 id="seatL2">Seat No: L2</h5>
-                                <p id="nameL2">Subashre J</p>
-                                <p id="regL2">421324622002</p>
+                                <p id="nameL2"></p>
+                                <p id="regL2"></p>
                             </div>
                             <div class="student dept2">
                                 <h5 id="seatC2">Seat No: C2</h5>
-                                <p id="nameC2">Sandy S</p>
-                                <p id="regC2">421323798012</p>
+                                <p id="nameC2"></p>
+                                <p id="regC2"></p>
                             </div>
                             <div class="student dept3">
                                 <h5 id="seatR2">Seat No: R2</h5>
-                                <p id="nameR2">Priya T</p>
-                                <p id="regR2">421323622002</p>
+                                <p id="nameR2"></p>
+                                <p id="regR2"></p>
                             </div>
                         </div>
                     </div>
@@ -276,18 +297,18 @@
                         <div id="bench7" class="bench bench7">
                             <div class="student dept1">
                                 <h5 id="seatL7">Seat No: L7</h5>
-                                <p id="nameL7">Arvind S</p>
-                                <p id="regL7">421324622007</p>
+                                <p id="nameL7"></p>
+                                <p id="regL7"></p>
                             </div>
                             <div class="student dept2">
                                 <h5 id="seatC7">Seat No: C7</h5>
-                                <p id="nameC7">Neha P</p>
-                                <p id="regC7">421323798017</p>
+                                <p id="nameC7"></p>
+                                <p id="regC7"></p>
                             </div>
                             <div class="student dept3">
                                 <h5 id="seatR7">Seat No: R7</h5>
-                                <p id="nameR7">Karthik G</p>
-                                <p id="regR7">421323622007</p>
+                                <p id="nameR7"></p>
+                                <p id="regR7"></p>
                             </div>
                         </div>
                     </div>
@@ -297,18 +318,18 @@
                         <div id="bench12" class="bench bench12">
                             <div class="student dept1">
                                 <h5 id="seatL12">Seat No: L12</h5>
-                                <p id="nameL12">Lakshmi K</p>
-                                <p id="regL12">421324622012</p>
+                                <p id="nameL12"></p>
+                                <p id="regL12"></p>
                             </div>
                             <div class="student dept2">
                                 <h5 id="seatC12">Seat No: C12</h5>
-                                <p id="nameC12">Priya S</p>
-                                <p id="regC12">421323798022</p>
+                                <p id="nameC12"></p>
+                                <p id="regC12"></p>
                             </div>
                             <div class="student dept3">
                                 <h5 id="seatR12">Seat No: R12</h5>
-                                <p id="nameR12">Dinesh M</p>
-                                <p id="regR12">421323622012</p>
+                                <p id="nameR12"></p>
+                                <p id="regR12"></p>
                             </div>
                         </div>
                     </div>
@@ -320,18 +341,18 @@
                         <div id="bench3" class="bench bench3">
                             <div class="student dept1">
                                 <h5 id="seatL3">Seat No: L3</h5>
-                                <p id="nameL3">Divya P</p>
-                                <p id="regL3">421324622003</p>
+                                <p id="nameL3"></p>
+                                <p id="regL3"></p>
                             </div>
                             <div class="student dept2">
                                 <h5 id="seatC3">Seat No: C3</h5>
-                                <p id="nameC3">Arun B</p>
-                                <p id="regC3">421323798013</p>
+                                <p id="nameC3"></p>
+                                <p id="regC3"></p>
                             </div>
                             <div class="student dept3">
                                 <h5 id="seatR3">Seat No: R3</h5>
-                                <p id="nameR3">Nisha G</p>
-                                <p id="regR3">421323622003</p>
+                                <p id="nameR3"></p>
+                                <p id="regR3"></p>
                             </div>
                         </div>
                     </div>
@@ -341,18 +362,18 @@
                         <div id="bench8" class="bench bench8">
                             <div class="student dept1">
                                 <h5 id="seatL8">Seat No: L8</h5>
-                                <p id="nameL8">Simran V</p>
-                                <p id="regL8">421324622008</p>
+                                <p id="nameL8"></p>
+                                <p id="regL8"></p>
                             </div>
                             <div class="student dept2">
                                 <h5 id="seatC8">Seat No: C8</h5>
-                                <p id="nameC8">Nikhil R</p>
-                                <p id="regC8">421323798018</p>
+                                <p id="nameC8"></p>
+                                <p id="regC8"></p>
                             </div>
                             <div class="student dept3 ">
                                 <h5 id="seatR8">Seat No: R8</h5>
-                                <p id="nameR8">Ashwini B</p>
-                                <p id="regR8">421323622008</p>
+                                <p id="nameR8"></p>
+                                <p id="regR8"></p>
                             </div>
                         </div>
                     </div>
@@ -362,18 +383,18 @@
                         <div id="bench13" class="bench bench13">
                             <div class="student dept1">
                                 <h5 id="seatL13">Seat No: L13</h5>
-                                <p id="nameL13">Arpita G</p>
-                                <p id="regL13">421324622013</p>
+                                <p id="nameL13"></p>
+                                <p id="regL13"></p>
                             </div>
                             <div class="student dept2">
                                 <h5 id="seatC13">Seat No: C13</h5>
-                                <p id="nameC13">Manish R</p>
-                                <p id="regC13">421323798023</p>
+                                <p id="nameC13"></p>
+                                <p id="regC13"></p>
                             </div>
                             <div class="student dept3">
                                 <h5 id="seatR13">Seat No: R13</h5>
-                                <p id="nameR13">Kumar P</p>
-                                <p id="regR13">421323622013</p>
+                                <p id="nameR13"></p>
+                                <p id="regR13"></p>
                             </div>
                         </div>
                     </div>
@@ -385,18 +406,18 @@
                         <div id="bench4" class="bench bench4">
                             <div class="student dept1">
                                 <h5 id="seatL4">Seat No: L4</h5>
-                                <p id="nameL4">Priya R</p>
-                                <p id="regL4">421324622004</p>
+                                <p id="nameL4"></p>
+                                <p id="regL4"></p>
                             </div>
                             <div class="student dept2">
                                 <h5 id="seatC4">Seat No: C4</h5>
-                                <p id="nameC4">Rahul P</p>
-                                <p id="regC4">421323798014</p>
+                                <p id="nameC4"></p>
+                                <p id="regC4"></p>
                             </div>
                             <div class="student dept3">
                                 <h5 id="seatR4">Seat No: R4</h5>
-                                <p id="nameR4">Swati K</p>
-                                <p id="regR4">421323622004</p>
+                                <p id="nameR4"></p>
+                                <p id="regR4"></p>
                             </div>
                         </div>
                     </div>
@@ -406,18 +427,18 @@
                         <div id="bench9" class="bench bench9">
                             <div class="student dept1">
                                 <h5 id="seatL9">Seat No: L9</h5>
-                                <p id="nameL9">Ramesh K</p>
-                                <p id="regL9">421324622009</p>
+                                <p id="nameL9"></p>
+                                <p id="regL9"></p>
                             </div>
                             <div class="student dept2">
                                 <h5 id="seatC9">Seat No: C9</h5>
-                                <p id="nameC9">Priya J</p>
-                                <p id="regC9">421323798019</p>
+                                <p id="nameC9"></p>
+                                <p id="regC9"></p>
                             </div>
                             <div class="student dept3">
                                 <h5 id="seatR9">Seat No: R9</h5>
-                                <p id="nameR9">Ravi A</p>
-                                <p id="regR9">421323622009</p>
+                                <p id="nameR9"></p>
+                                <p id="regR9"></p>
                             </div>
                         </div>
                     </div>
@@ -427,18 +448,18 @@
                         <div id="bench14" class="bench bench14">
                             <div class="student dept1">
                                 <h5 id="seatL14">Seat No: L14</h5>
-                                <p id="nameL14">Kavi R</p>
-                                <p id="regL14">421324622014</p>
+                                <p id="nameL14"></p>
+                                <p id="regL14"></p>
                             </div>
                             <div class="student dept2">
                                 <h5 id="seatC14">Seat No: C14</h5>
-                                <p id="nameC14">Aarti S</p>
-                                <p id="regC14">421323798024</p>
+                                <p id="nameC14"></p>
+                                <p id="regC14"></p>
                             </div>
                             <div class="student dept3">
                                 <h5 id="seatR14">Seat No: R14</h5>
-                                <p id="nameR14">Vikram D</p>
-                                <p id="regR14">421323622014</p>
+                                <p id="nameR14"></p>
+                                <p id="regR14"></p>
                             </div>
                         </div>
                     </div>
@@ -450,18 +471,18 @@
                         <div id="bench5" class="bench bench5">
                             <div class="student dept1">
                                 <h5 id="seatL5">Seat No: L5</h5>
-                                <p id="nameL5">Gaurav S</p>
-                                <p id="regL5">421324622005</p>
+                                <p id="nameL5"></p>
+                                <p id="regL5"></p>
                             </div>
                             <div class="student dept2">
                                 <h5 id="seatC5">Seat No: C5</h5>
-                                <p id="nameC5">Kavya V</p>
-                                <p id="regC5">421323798015</p>
+                                <p id="nameC5"></p>
+                                <p id="regC5"></p>
                             </div>
                             <div class="student dept3">
                                 <h5 id="seatR5">Seat No: R5</h5>
-                                <p id="nameR5">Amit K</p>
-                                <p id="regR5">421323622005</p>
+                                <p id="nameR5"></p>
+                                <p id="regR5"></p>
                             </div>
                         </div>
                     </div>
@@ -471,18 +492,18 @@
                         <div id="bench10" class="bench bench10">
                             <div class="student dept1">
                                 <h5 id="seatL10">Seat No: L10</h5>
-                                <p id="nameL10">Neelam R</p>
-                                <p id="regL10">421324622010</p>
+                                <p id="nameL10"></p>
+                                <p id="regL10"></p>
                             </div>
                             <div class="student dept2">
                                 <h5 id="seatC10">Seat No: C10</h5>
-                                <p id="nameC10">Anshika M</p>
-                                <p id="regC10">421323798020</p>
+                                <p id="nameC10"></p>
+                                <p id="regC10"></p>
                             </div>
                             <div class="student dept3">
                                 <h5 id="seatR10">Seat No: R10</h5>
-                                <p id="nameR10">Kiran G</p>
-                                <p id="regR10">421323622010</p>
+                                <p id="nameR10"></p>
+                                <p id="regR10"></p>
                             </div>
                         </div>
                     </div>
@@ -492,18 +513,18 @@
                         <div id="bench15" class="bench bench15">
                             <div class="student dept1">
                                 <h5 id="seatL15">Seat No: L15</h5>
-                                <p id="nameL15">Asha R</p>
-                                <p id="regL15">421324622015</p>
+                                <p id="nameL15"></p>
+                                <p id="regL15"></p>
                             </div>
                             <div class="student dept2">
                                 <h5 id="seatC15">Seat No: C15</h5>
-                                <p id="nameC15">Sonal T</p>
-                                <p id="regC15">421323798025</p>
+                                <p id="nameC15"></p>
+                                <p id="regC15"></p>
                             </div>
                             <div class="student dept3">
                                 <h5 id="seatR15">Seat No: R15</h5>
-                                <p id="nameR15">Rahul G</p>
-                                <p id="regR15">421323622015</p>
+                                <p id="nameR15"></p>
+                                <p id="regR15"></p>
                             </div>
                         </div>
                     </div>
@@ -511,7 +532,7 @@
 
             </div>
 
-            <div>
+            <!-- <div>
                 <nav class="mt-2 mb-4">
                     <ul class="pagination d-flex justify-content-end align-items-center mb-0">
                         <li class="page-item">
@@ -525,7 +546,7 @@
                         </li>
                     </ul>
                 </nav>
-            </div>
+            </div> -->
         </div>
     </div> <!-- End of bench-container -->
 
@@ -534,3 +555,100 @@
 </div>
 @endsection
 <script src="{{ asset('js/exam-seating.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+// Helper: Fill export table with all seating data
+function fillExportTable(seatingData) {
+    let tbody = document.querySelector('#export-table tbody');
+    tbody.innerHTML = '';
+    seatingData.forEach((stu, idx) => {
+        let tr = document.createElement('tr');
+        tr.innerHTML = `<td>${idx+1}</td><td>${stu.name}</td><td>${stu.department}</td><td>${stu.year}</td><td>${stu.seat}</td><td>${stu.room}</td>`;
+        tbody.appendChild(tr);
+    });
+}
+// Export to Excel (all rooms)
+$('#export_excel').on('click', function() {
+    if (!window.allSeatingData || !Array.isArray(window.allSeatingData) || window.allSeatingData.length === 0) {
+        alert('No seating data to export!');
+        return;
+    }
+    fillExportTable(window.allSeatingData);
+    let table = document.getElementById('export-table');
+    let wb = XLSX.utils.table_to_book(table, {sheet: "Seating"});
+    XLSX.writeFile(wb, 'seating_order.xlsx');
+});
+// Export to PDF (all rooms)
+$('#export_pdf').on('click', function() {
+    if (!window.allSeatingData || !Array.isArray(window.allSeatingData) || window.allSeatingData.length === 0) {
+        alert('No seating data to export!');
+        return;
+    }
+    fillExportTable(window.allSeatingData);
+    let table = document.getElementById('export-table');
+    html2canvas(table).then(function(canvas) {
+        let imgData = canvas.toDataURL('image/png');
+        let doc = new jspdf.jsPDF('l', 'pt', 'a4');
+        let pageWidth = doc.internal.pageSize.getWidth();
+        let pageHeight = doc.internal.pageSize.getHeight();
+        let imgWidth = canvas.width;
+        let imgHeight = canvas.height;
+        let ratio = Math.min(pageWidth / imgWidth, pageHeight / imgHeight);
+        let x = (pageWidth - imgWidth * ratio) / 2;
+        let y = 20;
+        doc.addImage(imgData, 'PNG', x, y, imgWidth * ratio, imgHeight * ratio);
+        doc.save('seating_order.pdf');
+    });
+});
+// Print (only visible classroom)
+$('#print_seating').on('click', function() {
+    let classroom = document.querySelector('.classroom:visible, .classroom:not([style*="display: none"])');
+    if (!classroom) classroom = document.querySelector('.classroom');
+    if (!classroom) return;
+    let printWindow = window.open('', '', 'height=600,width=900');
+    printWindow.document.write('<html><head><title>Print Seating</title>');
+    printWindow.document.write('<link rel="stylesheet" href="/css/exam-seating.css">');
+    printWindow.document.write('</head><body >');
+    printWindow.document.write(classroom.outerHTML);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(function(){ printWindow.print(); printWindow.close(); }, 500);
+});
+// Search (show only matching benches in visible classroom)
+$('#search').on('input', function(e) {
+    let searchValue = this.value.trim().toLowerCase();
+    let classroom = document.querySelector('.classroom:visible, .classroom:not([style*="display: none"])');
+    if (!classroom) classroom = document.querySelector('.classroom');
+    if (!classroom) return;
+    $(classroom).find('.bench_container').each(function() {
+        let found = false;
+        $(this).find('p').each(function() {
+            if ($(this).text().toLowerCase().includes(searchValue)) found = true;
+        });
+        $(this).toggle(found || !searchValue);
+    });
+});
+$('#search').on('keypress', function(e) {
+    if (e.which === 13) { // Enter key
+        $(this).trigger('input');
+    }
+});
+</script>
+
+<!-- Hidden export table -->
+<table id="export-table" class="d-none">
+    <thead>
+        <tr>
+            <th>Serial No</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Year</th>
+            <th>Seat/Place</th>
+            <th>Room No</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
