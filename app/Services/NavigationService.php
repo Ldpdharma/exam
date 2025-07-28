@@ -66,7 +66,7 @@ class NavigationService
             ];
         }
 
-        if ($user->hasRole('admin') || $user->can('read-students')) { // Allow admin and users with read-students permission
+        if ($user->hasRole('admin'||'teacher') || $user->can('read-students')) { // Allow admin and users with read-students permission
             $menus[] = [
                 'link' => route('students'),
                 'text' => "Students",
@@ -76,7 +76,7 @@ class NavigationService
                 'sub_menu' => [],
             ];
         }
-        if ($user->hasRole('admin') || $user->can('read-teacher')) { // Allow admin and users with read-students permission
+        if ($user->hasRole('admin'||'teacher') || $user->can('read-teacher')) { // Allow admin and users with read-students permission
             $menus[] = [
                 'link' => route('teacher'),
                 'text' => "Teacher",
@@ -87,7 +87,7 @@ class NavigationService
             ];
         }
 
-        if ($user->hasRole('admin') || $user->can('read-exams')) {
+        if ($user->hasRole('admin'||'teacher') || $user->can('read-exams')) {
             $menus[] = [
                 'link' => route('exams'),
                 'text' => "Exams",
@@ -97,7 +97,7 @@ class NavigationService
                 'sub_menu' => [],
             ];
         }
-        if ($user->hasRole('admin') || $user->can('read-exams')) {
+        if ($user->hasRole('admin'||'teacher') || $user->can('read-exams')) {
             $menus[] = [
                 'link' => route('rooms'),
                 'text' => "Rooms",
@@ -107,7 +107,7 @@ class NavigationService
                 'sub_menu' => [],
             ];
         }
-        if ($user->hasRole('admin') || $user->can('read-exams')) {
+        if ($user->hasRole('admin'||'teacher') || $user->can('read-exams')) {
             $menus[] = [
                 'link' => route('exam-seating.index'),
                 'text' => "Exam Seating",

@@ -167,11 +167,10 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     // Exam Seating Routes
-    Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::middleware(['auth', 'role:admin|teacher'])->group(function () {
         Route::get('/exam-seating', [ExamSeatingController::class, 'index'])->name('exam-seating.index');
         Route::post('/exam-seating', [ExamSeatingController::class, 'store'])->name('exam-seating.store');
-        Route::get('/exam-seating12', [ExamSeatingController::class, 'getStudents'])->name('students.get');
-        Route::get('/exam-seating/get-students', [App\Http\Controllers\ExamSeatingController::class, 'getStudentsByDepartmentAndYear']);
+        Route::get('/exam-seating/get-students', [ExamSeatingController::class, 'getStudentsByDepartmentAndYear']);
         Route::get('exam-seating/students/data', [ExamSeatingController::class, 'getStudentDataForSeating'])->name('exam-seating.students.data');
         Route::post('/exam-seating/filter-multi', [ExamSeatingController::class, 'filterMulti'])->name('exam-seating.filter-multi');
     });

@@ -190,7 +190,7 @@
                     </button>
                 </div>
                 <div class="col-auto">
-                    <button type="button" class="btn btn-outline-danger btn-sm me-2" id="export_pdf">
+                    <button type="button" class="btn btn-outline-danger btn-sm me-2" id="export_pdf" onclick="window.location.href='{{ asset('storage/upload/Seatingorder%20.pdf') }}'">
                         <i class="bi bi-file-earmark-pdf"></i> Export to PDF
                     </button>
                 </div>
@@ -636,6 +636,12 @@ $('#search').on('keypress', function(e) {
         $(this).trigger('input');
     }
 });
+function downloadPDF() {
+    const link = document.createElement('a');
+    link.href = '{{ asset('exam_seating/Seating order.pdf') }}'; // Path to the PDF file in the public/exam_seating directory
+    link.download = 'Seating order.pdf'; // Suggested file name for download
+    link.click();
+}
 </script>
 
 <!-- Hidden export table -->
